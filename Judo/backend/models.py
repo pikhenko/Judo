@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+
 class Photo(models.Model):
     photo = models.ImageField(upload_to="photos/%Y/%m/%d/")
     time_create = models.DateTimeField(auto_now_add=True)

@@ -1,12 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import *
+from .models import Posts, Photo
 
 menu = [{'title': "Главная страница", 'url_name': 'home'},
-        {'title': "Посты", 'url_name': 'add_page'}, 
-        {'title': "Фотогалерея", 'url_name': 'photo'}, 
-        {'title': "Расписание", 'url_name': 'shedule'}, 
+        {'title': "Посты", 'url_name': 'add_page'},
+        {'title': "Фотогалерея", 'url_name': 'photo'},
+        {'title': "Расписание", 'url_name': 'shedule'},
         {'title': "Наша команда", 'url_name': 'team'},
         {'title': "О нас", 'url_name': 'about'},
         {'title': "Войти", 'url_name': 'login'}
@@ -21,6 +21,7 @@ def index(request):
         'title': 'Главная страница'
     }
     return render(request, 'backend/index.html', context=context)
+
 
 def add_page(request):
     posts = Posts.objects.all()
@@ -42,11 +43,11 @@ def team(request):
 
 def shedule(request):
     return render(request, 'backend/shedule.html', {'menu': menu, 'title': 'Расписание'})
-<<<<<<< HEAD
-=======
+
 
 def about(request):
     return render(request, 'backend/about.html', {'menu': menu, 'title': 'О Нас'})
+
 
 def read_post(request, post_id):
     posts = get_object_or_404(Posts, pk=post_id)
@@ -59,6 +60,6 @@ def read_post(request, post_id):
 
     return render(request, 'backend/posts.html', context=context)
 
+
 def login(request):
     return HttpResponse("Авторизация")
->>>>>>> ea669110db9a284137eb5eb840921232f54e0809
