@@ -6,7 +6,7 @@ from backend.views import *
 from django.urls import include
 from django.urls import path
 
-# 12
+# registration
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('users.urls', namespace='users')),
