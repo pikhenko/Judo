@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-from re import template
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +25,7 @@ SECRET_KEY = 'r%_#3wg=9_q4x0uikssl9pcz2ec7(ssjsdmpvfqlh#i!^n061^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -53,10 +52,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
 ROOT_URLCONF = 'Judo.urls'
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -105,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -119,13 +120,33 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-
-STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = ['static']
-
+# Media
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# Statics
+STATIC_URL = '/static/'
+STATICFILES_DIRS = ['static']
+
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'backend:home'
+
+# Email settings
+
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'apikhenko@gmail.com'
+EMAIL_HOST_PASSWORD = 'yujiqesimmbfdija'
+
+EMAIL_SERVER = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = ['apikhenko@yandex.ru']
+
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure'

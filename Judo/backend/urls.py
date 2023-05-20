@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views import index, team, photo, shedule, about, add_page, login, read_post
+app_name = 'backend'
 
 urlpatterns = [
     path('', index, name='home'),

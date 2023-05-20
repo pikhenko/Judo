@@ -3,13 +3,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Posts, Photo
 
-menu = [{'title': "Главная страница", 'url_name': 'home'},
-        {'title': "Посты", 'url_name': 'add_page'},
-        {'title': "Фотогалерея", 'url_name': 'photo'},
-        {'title': "Расписание", 'url_name': 'shedule'},
-        {'title': "Наша команда", 'url_name': 'team'},
-        {'title': "О нас", 'url_name': 'about'},
-        {'title': "Войти", 'url_name': 'login'}
+menu = [{'title': "Главная страница", 'url_name': 'backend:home'},
+        {'title': "Посты", 'url_name': 'backend:add_page'},
+        {'title': "Фотогалерея", 'url_name': 'backend:photo'},
+        {'title': "Расписание", 'url_name': 'backend:shedule'},
+        {'title': "Наша команда", 'url_name': 'backend:team'},
+        {'title': "О нас", 'url_name': 'backend:about'},
+        {'title': "Войти", 'url_name': 'users:login'}
 ]
 
 
@@ -62,4 +62,4 @@ def read_post(request, post_id):
 
 
 def login(request):
-    return HttpResponse("Авторизация")
+    return render(request, 'users/login.html')
