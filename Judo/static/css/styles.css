@@ -404,3 +404,18 @@ ul.lang-list li a:hover {color: #fdc073;}
 .my-carousel .carousel-item img {
 	object-fit: cover;
 }
+
+.glightbox {
+	width: 100%;
+    display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));	
+}
+
+.glightbox__pic {
+	position: relative;
+    height: 200px;
+	cursor: pointer;
+	overflow: hidden;
+	object-fit: cover;
+	transition: 0.2s;
+}
