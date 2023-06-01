@@ -1,11 +1,7 @@
 {% extends "base.html" %}
-{% load user_filters %}
-
-{% block title %}
-Войти
-{% endblock %}
-
+{% block title %}Войти{% endblock %}
 {% block content %}
+{% load user_filters %}
   <div class="row justify-content-center">
     <div class="col-md-8 p-5">
       <div class="card">
@@ -27,12 +23,14 @@
                 </div>
               {% endfor %}
           {% endif %}
+
           <form method="post"
             {% if action_url %}
               action="{% url action_url %}"
             {% endif %}
           >
           {% csrf_token %}
+
           {% for field in form %}
             <div class="form-group row my-3"
               {% if field.field.required %} 
@@ -61,6 +59,8 @@
             <button type="submit" class="btn btn-primary">
               Войти
             </button>
+            <!-- Тест на внимательность. Без переопределения шаблона этого адреса
+            не существует. Нужно что-то делать, иначе все упадет -->
             <a href="{% url 'users:password_reset_form' %}" class="btn btn-link">
               Забыли пароль?
             </a>
@@ -69,5 +69,5 @@
         </div> <!-- card body -->
       </div> <!-- card -->
     </div> <!-- col -->
-  </div> <!-- row -->
+</div> <!-- row -->
 {% endblock %}
