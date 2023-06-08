@@ -4,13 +4,17 @@
 <h1>{{ title }}</h1>
 
 <div class="glightbox">
-    {% for p in photo %}
+    {% for p in page_obj %}
+    <div class="img">
       {% if p.photo %}
           <a href="{{p.photo.url}}">
-            <img src="{{p.photo.url}}" alt="image" class="glightbox__pic" />
+            <img src="{{p.photo.url}}" class="img-thumbnail" alt="image"/>
           </a>
       {% endif %}
+    </div>
     {% endfor %}
+
 </div>
+{% include 'includes/paginator.html' %}
 
 {% endblock %}
