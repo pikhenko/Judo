@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import DetailView
@@ -24,8 +25,11 @@ def index(request):
 
 def add_page(request):
     posts = Posts.objects.all()
+    paginator = Paginator(posts, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
-        'posts': posts,
+        'page_obj': page_obj,
         'menu': menu,
         'title': 'Посты'
     }
@@ -34,8 +38,11 @@ def add_page(request):
 
 def photo(request):
     photo = Photo.objects.all()
+    paginator = Paginator(photo, 12)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     
-    return render(request, 'backend/photo.html', {'menu': menu, 'title': 'Фотогалерея', 'photo': photo})
+    return render(request, 'backend/photo.html', {'menu': menu, 'title': 'Фотогалерея', 'page_obj': page_obj})
 
 
 def team(request):

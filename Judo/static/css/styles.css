@@ -411,7 +411,7 @@ ul.lang-list li a:hover {color: #fdc073;}
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));	
 }
 
-.glightbox__pic {
+.img-thumbnail {
 	position: relative;
     height: 200px;
 	cursor: pointer;
@@ -419,3 +419,63 @@ ul.lang-list li a:hover {color: #fdc073;}
 	object-fit: cover;
 	transition: 0.2s;
 }
+
+.img:hover .img-thumbnail  {
+	transform: scale(1.1);
+}
+
+.my-5 {
+	margin-left: 40%;
+}
+
+.pagination {
+	--bs-pagination-active-border-color: #000;
+	--bs-pagination-color: #000;
+	--bs-pagination-active-bg: #000;
+}
+
+.burger {
+	display: none;
+	position: relative;
+	z-index: 50;
+	align-items: center;
+	justify-content: flex-end;
+	width: 30px;
+	height: 18px;
+}
+
+.burger span {
+	height: 2px;
+	width: 100%;
+	background-color: #aaa;
+}
+
+.burger::before, .burger::after {
+	content: '';
+	position: absolute;
+	height: 2px;
+	width: 100%;
+	background-color: #aaa;
+}
+
+.burger::before {
+	top: 0;
+}
+
+.burger::after {
+	bottom: 0;
+}
+
+@media (max-width: 900px) {
+	.burger { display:flex}
+
+	ul.mainmenu {
+		display: flex;
+		flex-direction: column;
+		position: fixed;
+		height: 100%;
+		width: 100%;
+		top: 0; 
+	}
+}
+
