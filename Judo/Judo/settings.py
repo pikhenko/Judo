@@ -27,9 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+AUTH_USER_MODEL = 'users.User'
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend.apps.BackendConfig',
-    'users.apps.UsersConfig',
+    # 'users.apps.UsersConfig',
     'core.apps.CoreConfig',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -131,22 +132,14 @@ STATICFILES_DIRS = ['static']
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'backend:home'
 
-# Email settings
-
-# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-# EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
-
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '587'
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
+EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'apikhenko@gmail.com'
-EMAIL_HOST_PASSWORD = 'yujiqesimmbfdija'
-
-EMAIL_SERVER = EMAIL_HOST_USER
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-EMAIL_ADMIN = ['apikhenko@yandex.ru']
+EMAIL_HOST_PASSWORD = 'bvnpthywwkkrzdsa'
 
 CSRF_FAILURE_VIEW = 'core.views.csrf_failure'

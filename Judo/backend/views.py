@@ -3,13 +3,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Posts, Photo
 
-menu = [{'title': "Главная страница", 'url_name': 'backend:home'},
+menu = [{'title': "Главная", 'url_name': 'backend:home'},
         {'title': "Посты", 'url_name': 'backend:add_page'},
         {'title': "Фотогалерея", 'url_name': 'backend:photo'},
         {'title': "Расписание", 'url_name': 'backend:shedule'},
         {'title': "Наша команда", 'url_name': 'backend:team'},
-        {'title': "О нас", 'url_name': 'backend:about'},
-        {'title': "Войти", 'url_name': 'users:login'}
+        # {'title': "О нас", 'url_name': 'backend:about'}
+        # {'title': "Войти", 'url_name': 'users:login'},
+        # {'title': "Регистрация", 'url_name': 'users:signup'}
 ]
 
 
@@ -63,3 +64,6 @@ def read_post(request, post_id):
 
 def login(request):
     return render(request, 'users/login.html')
+
+def signup(request):
+    return render(request, 'users/signup.html')
