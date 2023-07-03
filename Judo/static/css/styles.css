@@ -91,9 +91,9 @@ ul.mainmenu {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	height: 60px;
-	color: #fdc073;
-	font-size: 20px;
+	height: 30px;
+	color: #81fd73;
+	font-size: 10px;
 	overflow: hidden;
 }
 ul.mainmenu li {
@@ -101,7 +101,7 @@ ul.mainmenu li {
 	margin: 18px 40px 0 30px;
 }
 ul.mainmenu li.logo {margin: 0;}
-ul.mainmenu li.last {float: right;}
+ul.mainmenu li.last {float: left;}
 
 ul.mainmenu li a {
 	color: #ffffff;
@@ -139,7 +139,7 @@ ul.langitem li.descr {
 	overflow: hidden;
 }
 ul.langitem li a {
-	color: #fdc073;
+	color: #881a65;
 	text-decoration: none;
 	font-size: 20px;
 }

@@ -5,8 +5,10 @@ from django.contrib.auth.views import PasswordChangeDoneView
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView
 from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth.views import PasswordResetCompleteView
+from django.views.generic import TemplateView
 
 from . import views
+from .views import EmailVerify
 
 app_name = 'users'
 
@@ -18,6 +20,26 @@ urlpatterns = [
     path('login/',
          LoginView.as_view(template_name='users/login.html'),
          name='login'),
+
+    path(
+        'invalid_verify/',
+        TemplateView.as_view(template_name='users/invalid_verify.html'),
+        name='invalid_verify'
+    ),
+
+    path(
+        'verify_email/<uidb64>/<token>/',
+        EmailVerify.as_view(),
+        name='verify_email',
+    ),
+
+    path(
+        'confirm_email/',
+        TemplateView.as_view(template_name='users/confirm_email.html'),
+        name='confirm_email'
+    ),
+
+
     path(
         'password_change/',
         PasswordChangeView.as_view(
