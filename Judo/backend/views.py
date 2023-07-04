@@ -5,7 +5,7 @@ from django.views.generic import DetailView
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required   
 from .models import *
-from .forms import *
+from .forms import AddPostForm, CommentForm
 
 menu = [{'title': "Главная", 'url_name': 'backend:home'},
         {'title': "Посты", 'url_name': 'backend:post_list'},
