@@ -11,5 +11,12 @@ class PostsAdmin(admin.ModelAdmin):
 class PhotoAdmin(admin.ModelAdmin):
     list_display = ('time_create', 'photo')
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'post', 'created', 'active']
+    list_filter = ['active', 'created']
+    search_fields = ['name', 'email', 'body']
+
+
 admin.site.register(Posts, PostsAdmin)
 admin.site.register(Photo, PhotoAdmin)
+admin.site.register(Comment, CommentAdmin)

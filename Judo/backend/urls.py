@@ -12,4 +12,6 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('post/<slug:post_slug>/', read_post, name='read_post'),
     path('add_page/', add_page, name='add_page'),
+    path('<int:post_id>/comment/', post_comment, name='post_comment'),
+
 ]
