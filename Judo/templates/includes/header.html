@@ -1,0 +1,112 @@
+{% load static %}
+
+<html lang="ru">
+<head>
+</head>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+       <a class="navbar-brand" href="{% url 'backend:home' %}">
+         <img src="../static/images/lion.png" alt="" width="60" height="48">
+       </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% for m in menu %}
+              {% if not forloop.last %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url m.url_name %}">{{m.title}}</a>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url m.url_name %}">{{m.title}}</a>
+                </li>
+              {% endif %}
+          {% endfor %}
+
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Скачать
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Бело-желтый пояс</a></li>
+            <li><a class="dropdown-item" href="#">Желтый пояс</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link disabled">Отключенная</a>
+        </li>
+      </ul>
+       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <form class="d-flex">
+        {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link {% if view_name  == 'users:password_change_form' %}active{% endif %}"
+            href="{% url 'users:password_change_form' %}">
+            Изменить пароль
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link {% if view_name  == 'users:logout' %}active{% endif %}"
+            href="{% url 'users:logout' %}">
+            Выйти
+            </a>
+          </li>
+
+<!--          <li>-->
+<!--            Пользователь: {{ user.username }}-->
+<!--          <li>-->
+          <li>
+            <a class="nav-link disabled"> Пользователь: {{ user.username }}</a>
+          </li>
+
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link {% if view_name  == 'users:login' %}active{% endif %}"
+              href="{% url 'users:login' %}">
+                Войти
+              </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if view_name  == 'users:signup' %}active{% endif %}"
+              href="{% url 'users:signup' %}">
+                Регистрация
+            </a>
+          </li>
+        {% endif %}
+      </form>
+       </ul>
+
+
+
+
+
+<!--      <form class="d-flex">-->
+<!--        <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">-->
+<!--        <button class="btn btn-outline-success" type="submit">Поиск</button>-->
+<!--      </form>-->
+    </div>
+  </div>
+</nav>
+
+  </nav>
+</div>
+
+
+</nav>
+
+<header>
+
+
+</header>

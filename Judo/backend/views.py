@@ -7,14 +7,13 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
 
-menu = [{'title': "Главная страница", 'url_name': 'home'},
-        {'title': "Посты", 'url_name': 'post_list'}, 
-        {'title': "Фотогалерея", 'url_name': 'photo'}, 
-        {'title': "Расписание", 'url_name': 'shedule'}, 
-        {'title': "Наша команда", 'url_name': 'team'},
-        {'title': "О нас", 'url_name': 'about'},
-        {'title': "Войти", 'url_name': 'login'}
+menu = [{'title': "Главная", 'url_name': 'backend:home'},
+        {'title': "Посты", 'url_name': 'backend:post_list'},
+        {'title': "Фотогалерея", 'url_name': 'backend:photo'},
+        {'title': "Расписание", 'url_name': 'backend:shedule'},
+        {'title': "Наша команда", 'url_name': 'backend:team'},
 ]
+
 
 def index(request):
     context = {
@@ -22,6 +21,7 @@ def index(request):
         'title': 'Главная страница'
     }
     return render(request, 'backend/index.html', context=context)
+
 
 def post_list(request):
     posts = Posts.objects.all()
@@ -35,22 +35,25 @@ def post_list(request):
     }
     return render(request, 'backend/posts.html', context=context)
 
+
 def photo(request):
     photo = Photo.objects.all()
     paginator = Paginator(photo, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
     return render(request, 'backend/photo.html', {'menu': menu, 'title': 'Фотогалерея', 'page_obj': page_obj})
 
 def team(request):
     return render(request, 'backend/team.html', {'menu': menu, 'title': 'Наша команда'})
 
+
 def shedule(request):
     return render(request, 'backend/shedule.html', {'menu': menu, 'title': 'Расписание'})
 
+
 def about(request):
     return render(request, 'backend/about.html', {'menu': menu, 'title': 'О Нас'})
+
 
 def read_post(request, post_slug):
     post = get_object_or_404(Posts,
@@ -69,6 +72,7 @@ def read_post(request, post_slug):
 
     return render(request, 'backend/detail_post.html', context)
 
+
 def add_page(request):
     if request.method == 'POST':
         form = AddPostForm(request.POST, request.FILES)
@@ -80,8 +84,9 @@ def add_page(request):
         form = AddPostForm()
     return render(request, 'backend/add_page.html', {'form': form, 'menu': menu, 'title': 'Добавление статьи'})
 
+
 def login(request):
-    return HttpResponse("Авторизация")
+    return render(request, 'users/login.html')
 
 
 @require_POST
@@ -98,3 +103,7 @@ def post_comment(request, post_id):
                             {'post': post,
                              'form': form,
                              'comment': comment})
+
+
+def signup(request):
+    return render(request, 'users/signup.html')
