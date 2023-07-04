@@ -1,7 +1,7 @@
 from django.urls import path
 
 
-from .views import index, team, photo, shedule, about, add_page, login, read_post
+from .views import index, team, photo, shedule, about, add_page, login, post_list, read_post
 app_name = 'backend'
 
 urlpatterns = [
