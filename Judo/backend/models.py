@@ -8,6 +8,10 @@ class Photo(models.Model):
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=True)
 
+    class Meta:
+        verbose_name = 'Фотографии'
+        verbose_name_plural = 'Фотографии'
+
 
 class Posts(models.Model):
     title = models.CharField(max_length=255)
@@ -22,7 +26,7 @@ class Posts(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('read_post', kwargs={'post_slug': self.slug})
+        return reverse('backend:read_post', kwargs={'post_slug': self.slug})
     
     class Meta:
         verbose_name = 'Посты'
