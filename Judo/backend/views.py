@@ -31,14 +31,14 @@ def post_list(request):
     context = {
         'page_obj': page_obj,
         'menu': menu,
-        'title': 'Посты'
+        'title': 'Посты',
     }
     return render(request, 'backend/posts.html', context=context)
 
 
 def photo(request):
     photo = Photo.objects.all()
-    paginator = Paginator(photo, 12)
+    paginator = Paginator(photo, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'backend/photo.html', {'menu': menu, 'title': 'Фотогалерея', 'page_obj': page_obj})
@@ -49,10 +49,6 @@ def team(request):
 
 def shedule(request):
     return render(request, 'backend/shedule.html', {'menu': menu, 'title': 'Расписание'})
-
-
-def about(request):
-    return render(request, 'backend/about.html', {'menu': menu, 'title': 'О Нас'})
 
 
 def read_post(request, post_slug):
@@ -78,7 +74,7 @@ def add_page(request):
         form = AddPostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('backend:home')
             
     else:
         form = AddPostForm()

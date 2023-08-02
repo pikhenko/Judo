@@ -1,12 +1,11 @@
 from django.urls import path
 
 
-from .views import index, team, photo, shedule, about, add_page, login, post_list, read_post, post_comment
+from .views import index, team, photo, shedule, add_page, login, post_list, read_post, post_comment
 app_name = 'backend'
 
 urlpatterns = [
     path('', index, name='home'),
-    path('about/', about, name='about'),
     path('team/', team, name='team'),
     path('photo/', photo, name='photo'),
     path('shedule/', shedule, name='shedule'),
