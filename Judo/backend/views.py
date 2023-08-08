@@ -1,9 +1,6 @@
 from django.core.paginator import Paginator
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import DetailView
 
-from .models import *
 from .forms import *
 
 menu = [{'title': "Главная", 'url_name': 'backend:home'},
@@ -11,7 +8,7 @@ menu = [{'title': "Главная", 'url_name': 'backend:home'},
         {'title': "Фотогалерея", 'url_name': 'backend:photo'},
         {'title': "Расписание", 'url_name': 'backend:shedule'},
         {'title': "Наша команда", 'url_name': 'backend:team'},
-]
+        ]
 
 
 def index(request):
@@ -42,6 +39,7 @@ def photo(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'backend/photo.html', {'menu': menu, 'title': 'Фотогалерея', 'page_obj': page_obj})
 
+
 def team(request):
     return render(request, 'backend/team.html', {'menu': menu, 'title': 'Наша команда'})
 
@@ -70,7 +68,7 @@ def add_page(request):
         if form.is_valid():
             form.save()
             return redirect('home')
-            
+
     else:
         form = AddPostForm()
     return render(request, 'backend/add_page.html', {'form': form, 'menu': menu, 'title': 'Добавление статьи'})
