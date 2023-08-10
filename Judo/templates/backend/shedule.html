@@ -2,9 +2,42 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-    <p>РАСПИСАНИЕ</p>
-s
-    </div>
+
+ ю
+    <table class="table">
+  <thead>
+    <tr class="table-warning">
+      <th scope="col"></th>
+      <th scope="col">Группа 7-12</th>
+      <th scope="col">Группа 5-7</th>
+      <th scope="col">Адрес</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Вторник</th>
+      <td>17:45 - 18:40</td>
+      <td>18:40 - 19:40</td>
+      <td>ул. Белозерская д. 15</td>
+    </tr>
+    <tr>
+      <th scope="row">Четверг</th>
+      <td>17:45 - 18:40</td>
+      <td>18:40 - 19:40</td>
+      <td>ул. Белозерская д. 15</td>
+    </tr>
+    <tr>
+      <th scope="row">Суббота</th>
+      <td>10:00 - 11:00</td>
+      <td>11:00 - 12:00</td>
+      <td>ул. Белозерская д. 7</td>
+    </tr>
+  </tbody>
+</table>
+
+<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1b4759a829ad28ef7e5a6ca17d5cd9f0816758eef29aa01f6fb3a42369d097c9&amp;width=711&amp;height=501&amp;lang=ru_RU&amp;scroll=true"></script>
+
+</div>
 
 
 {% endblock %}

@@ -4,7 +4,7 @@
 <h1>{{ title }}</h1>
 
 <ul>
-    {% for p in posts %}
+    {% for p in page_obj %}
     <li>
         {% if p.photo %}
             <p><img class="img-article-left thumb" src="{{p.photo.url}}"></p>
