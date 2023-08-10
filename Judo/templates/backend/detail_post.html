@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="card my-4">
   <h1>{{ post.title }}</h1>
 
     {% if post.photo %}
@@ -8,21 +9,17 @@
     {% endif %}
 
   <p>{{post.content|linebreaks}}</p>
-  {% with comments.count as total_comments %}
-    <h2>
-      {{ total_comments }} comment {{ total_comments|pluralize }}
-    </h2>
-  {% endwith %}
-  {% for comment in comments %}
-    <div class="comment">
+    <div class="add--comment">{% include 'includes/comment_form.html' %}</div>
+    <div class="card-header">
+      {% for comment in comments %}
         <p class="info">
-            Comment {{ forloop.counter }} by {{ comment.name }}
+            Коментарий {{ forloop.counter }} от {{ comment.name }}
             {{ comment.created }}
         </p>
         {{ comment.body|linebreaks }}
+      {% empty %}
+        <p>Пока нет коментариев.</p>
+      {% endfor %}
     </div>
-  {% empty %}
-    <p>There are no comments.</p>
-  {% endfor %}
-  {% include 'includes/comment_form.html' %}
+</div> 
 {% endblock %}
