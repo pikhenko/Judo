@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %} Add a comment {% endblock %}
+{% block title %} Добавить коментарий {% endblock %}
 
 {% block content %}
   {% if comment %}
-    <h2>Your comment has been added.</h2>
-    <p><a href="{{ post.get_absolute_url }}">Back to the post</a></p>
+    <h2>Ваш коментарий добавлен.</h2>
+    <p><a href="{{ post.get_absolute_url }}">Вернуться к постам</a></p>
   {% else %}
     {% include 'includes/comment_form.html' %}
   {% endif %}
