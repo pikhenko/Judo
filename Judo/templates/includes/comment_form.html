@@ -1,6 +1,8 @@
-<h4>Добавить новый коментарий</h4>
-<form action="{% url 'backend:post_comment' post.id %}" method="post" >
-  {{ form.as_p }}
-  {% csrf_token %}
-  <p><input type="submit" value="Добавить коментарий"></p>
-</form>
+<h4 class="card-header">Добавить новый коментарий</h4>
+<div class="card-body">
+  <form action="{% url 'backend:post_comment' post.id %}" method="post" >
+    {{ form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Добавить коментарий"></p>
+  </form>
+</div>

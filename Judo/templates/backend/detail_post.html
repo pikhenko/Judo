@@ -2,24 +2,31 @@
 
 {% block content %}
 <div class="card my-4">
-  <h1>{{ post.title }}</h1>
+    <div class="card-body">
+    <h1>{{ post.title }}</h1>
 
-    {% if post.photo %}
-      <p><img class="img-article-left" src="{{post.photo.url}}"></p>
-    {% endif %}
+      {% if post.photo %}
+        <p><img class="img-article-left" src="{{post.photo.url}}"></p>
+      {% endif %}
 
-  <p>{{post.content|linebreaks}}</p>
-    <div class="add--comment">{% include 'includes/comment_form.html' %}</div>
-    <div class="card-header">
-      {% for comment in comments %}
-        <p class="info">
-            Коментарий {{ forloop.counter }} от {{ comment.name }}
-            {{ comment.created }}
-        </p>
-        {{ comment.body|linebreaks }}
-      {% empty %}
-        <p>Пока нет коментариев.</p>
-      {% endfor %}
+    <p>{{post.content|linebreaks}}</p>
     </div>
+  {% if user.is_authenticated %}
+  {% include 'includes/comment_form.html' %}
+  {% else %}
+    <h4 class="card-body">Зарегистрируйтесь чтобы оставить коментарий !</h4>
+  {% endif %}
+  <div class="card-body">
+    {% for comment in comments %}
+      <h5 class="mt-0">
+        {{ comment.author.username }}
+        <!-- {{ comment.created }} -->
+      </h5>
+      {{ comment.body|linebreaks }}
+      {% empty %}
+      <p>Пока нет коментариев.</p>
+    {% endfor %}
+  </div>
+  
 </div> 
 {% endblock %}
