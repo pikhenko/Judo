@@ -12,6 +12,14 @@ class AddPostForm(forms.ModelForm):
         }
 
 
+class PhotoForm(forms.ModelForm):
+    class Meta:
+        model = PostsPhoto
+        fields = ['photo']
+
+
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

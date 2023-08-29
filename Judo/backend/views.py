@@ -5,12 +5,13 @@ from django.views.generic import DetailView
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required   
 from .models import *
-from .forms import AddPostForm, CommentForm
+from .models import Category, PhotoGallery
+from .forms import AddPostForm, CommentForm, PhotoForm
 
 
 menu = [{'title': "Главная", 'url_name': 'backend:home'},
         {'title': "Посты", 'url_name': 'backend:post_list'},
-        {'title': "Фотогалерея", 'url_name': 'backend:photo'},
+        {'title': "Фотогалерея", 'url_name': 'backend:gallery'},
         {'title': "Расписание", 'url_name': 'backend:shedule'},
         {'title': "Наша команда", 'url_name': 'backend:team'},
         ]
@@ -38,11 +39,15 @@ def post_list(request):
 
 
 def photo(request):
-    photo = Photo.objects.all()
+    form = PhotoForm(
+            request.POST,
+            files=request.FILES or None
+        )
+    photo = PostsPhoto.objects.all()
     paginator = Paginator(photo, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'backend/photo.html', {'menu': menu, 'title': 'Фотогалерея', 'page_obj': page_obj})
+    return render(request, 'backend/photo.html', {'menu': menu, 'title': 'Фотогалерея', 'page_obj': page_obj, 'form': form})
 
 
 def team(request):
@@ -105,3 +110,60 @@ def post_comment(request, post_id):
 
 def signup(request):
     return render(request, 'users/signup.html')
+
+
+# @login_required(login_url='login')
+def gallery(request):
+    user = request.user
+    category = request.GET.get('category')
+    if category == None:
+        # photos = PhotoGallery.objects.filter(category__user=user)
+        photos = PhotoGallery.objects.all()
+    else:
+        photos = PhotoGallery.objects.filter(
+            category__name=category)
+
+
+    # categories = Category.objects.filter(user=user)
+    categories = Category.objects.all()
+    context = {'categories': categories, 'photos': photos, 'menu': menu, 'title': 'Фотоальбом'}
+    return render(request, 'backend/gallery.html', context)
+
+
+
+@login_required(login_url='login')
+def viewPhoto(request, pk):
+    photo = PhotoGallery.objects.get(id=pk)
+    return render(request, 'backend/photo2.html', {'photo': photo})
+
+
+@login_required(login_url='login')
+def addPhoto(request):
+    user = request.user
+
+    # categories = user.category_set.all()
+    categories = user.category_set.all()
+    if request.method == 'POST':
+        data = request.POST
+        images = request.FILES.getlist('images')
+
+        if data['category'] != 'none':
+            category = Category.objects.get(id=data['category'])
+        elif data['category_new'] != '':
+            category, created = Category.objects.get_or_create(
+                user=user,
+                name=data['category_new'])
+        else:
+            category = None
+
+        for image in images:
+            photo = PhotoGallery.objects.create(
+                category=category,
+                description=data['description'],
+                image=image,
+            )
+
+        return redirect('backend:gallery')
+
+    context = {'categories': categories}
+    return render(request, 'backend/add.html', context)
