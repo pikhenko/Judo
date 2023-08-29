@@ -3,6 +3,18 @@
 {% block content %}
 <h1>{{ title }}</h1>
 
+<div class="raz">
+    <a class="btn btn-primary" href="#" role="button">Добавить</a>
+<div>
+
+    {% for field in form %}
+    {{ field}}
+    {% endfor %}
+    <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary">
+                  Доб
+              </button>
+            </div>
 <div class="glightbox">
     {% for p in page_obj %}
     <div class="img">
