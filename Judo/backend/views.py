@@ -100,6 +100,7 @@ def post_comment(request, post_id):
     form = CommentForm(data=request.POST)
     if form.is_valid():
         comment = form.save(commit=False)
+        comment.author = request.user
         comment.post = post
         comment.save()
     return render(request, 'backend/comment.html',

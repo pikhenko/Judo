@@ -1,5 +1,8 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 from users.models import User
 
@@ -42,6 +45,9 @@ class Comment(models.Model):
                              on_delete=models.CASCADE,
                              related_name='comments',
                              verbose_name="Пост")
+    author = models.ForeignKey(User,
+                             on_delete=models.CASCADE,
+                             related_name='comments')
     name = models.CharField(max_length=80, verbose_name="Имя")
     email = models.EmailField()
     body = models.TextField(verbose_name="")
