@@ -10,13 +10,17 @@
 <style>
     .image-thumbail {
         height: 200px;
+        width: 300px;
         object-fit: cover;
+
     }
 
     .list-group-item a {
         text-decoration: none;
         color: black;
     }
+
+
 </style>
 
 
@@ -44,7 +48,6 @@
                             </a>
                         </li>
                         {% endfor %}
-
                         {% if request.user.is_superuser %}
                             <a href="{% url 'backend:add' %}" class="btn btn-dark btn-block btn-sm m-1">Добавить фото</a>
                         {% endif %}
@@ -57,13 +60,16 @@
 
             {% for photo in photos %}
             <div class="col-md-4">
-                <div class="card my-2">
-                    <img class="image-thumbail" src="{{photo.image.url}}" alt="Card image cap">
 
-                    <div class="card-body">
-                        <small>Category: {{photo.category.name}}</small>
-                    </div>
-                    <a href="{% url 'backend:photo2' photo.id %}" class="btn btn-outline-dark btn-sm m-1">View</a>
+                <div class="card my-2">
+                    <a href="{% url 'backend:photo2' photo.id %}">
+                        <img class="image-thumbail" src="{{photo.image.url}}" alt="Card image cap" >
+                    </a>
+
+<!--                    <div class="">-->
+<!--                        <small>{{photo.description}}</small>-->
+<!--                    </div>-->
+                    <a href="{% url 'backend:delete_photo' photo.id %}" class="btn btn-outline-dark btn-sm m-1">delete</a>
                 </div>
             </div>
             {% empty %}

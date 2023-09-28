@@ -114,6 +114,9 @@ def signup(request):
 
 
 # @login_required(login_url='login')
+
+
+
 def gallery(request):
     user = request.user
     category = request.GET.get('category')
@@ -127,27 +130,33 @@ def gallery(request):
 
     # categories = Category.objects.filter(user=user)
     categories = Category.objects.all()
+
+    # photo_pk = PhotoGallery.objects.get()
+    # del_photo = photo_pk.delete()
+
     context = {'categories': categories, 'photos': photos, 'menu': menu, 'title': 'Фотоальбом'}
     return render(request, 'backend/gallery.html', context)
 
 
-
 @login_required(login_url='login')
-def viewPhoto(request, pk):
+def view_photo(request, pk):
     photo = PhotoGallery.objects.get(id=pk)
     return render(request, 'backend/photo2.html', {'photo': photo})
 
 
-@login_required(login_url='login')
-def addPhoto(request):
-    user = request.user
+def delete_photo(request, pk):
+    photo_pk = PhotoGallery.objects.get(id=pk)
+    del_photo = photo_pk.delete()
+    return redirect('backend:gallery')
 
-    # categories = user.category_set.all()
+
+@login_required(login_url='login')
+def add_photo(request):
+    user = request.user
     categories = user.category_set.all()
     if request.method == 'POST':
         data = request.POST
         images = request.FILES.getlist('images')
-
         if data['category'] != 'none':
             category = Category.objects.get(id=data['category'])
         elif data['category_new'] != '':
@@ -156,15 +165,12 @@ def addPhoto(request):
                 name=data['category_new'])
         else:
             category = None
-
         for image in images:
             photo = PhotoGallery.objects.create(
                 category=category,
                 description=data['description'],
                 image=image,
             )
-
         return redirect('backend:gallery')
-
     context = {'categories': categories}
     return render(request, 'backend/add.html', context)

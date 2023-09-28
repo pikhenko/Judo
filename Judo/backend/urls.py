@@ -1,7 +1,9 @@
 from django.urls import path
 
 
-from .views import index, team, photo, shedule, add_page, login, post_list, read_post, post_comment, gallery, addPhoto, viewPhoto
+from .views import (index, team, photo, shedule, add_page, login,
+                    post_list, read_post, post_comment, gallery,
+                    add_photo, view_photo, delete_photo)
 app_name = 'backend'
 
 urlpatterns = [
@@ -15,6 +17,7 @@ urlpatterns = [
     path('add_page/', add_page, name='add_page'),
     path('<int:post_id>/comment/', post_comment, name='post_comment'),
     path('gallery', gallery, name='gallery'),
-    path('photo/<str:pk>/', viewPhoto, name='photo2'),
-    path('add/', addPhoto, name='add'),
+    path('delete_photo/<str:pk>/', delete_photo, name='delete_photo'),
+    path('photo/<str:pk>/', view_photo, name='photo2'),
+    path('add/', add_photo, name='add'),
 ]

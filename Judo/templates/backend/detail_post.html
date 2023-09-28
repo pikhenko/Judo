@@ -20,7 +20,7 @@
     {% for comment in comments %}
       <h5 class="mt-0">
         {{ comment.author.username }}
-        <!-- {{ comment.created }} -->
+         {{ comment.created }}
       </h5>
       {{ comment.body|linebreaks }}
       {% empty %}
