@@ -55,7 +55,14 @@ def team(request):
 
 
 def shedule(request):
-    return render(request, 'backend/shedule.html', {'menu': menu, 'title': 'Расписание'})
+    age_groups = AgeGroup.objects.all()
+    selected_age_group = request.GET.get('age_group')
+
+    if selected_age_group:
+        schedule = Schedule.objects.filter(age_group=selected_age_group)
+    else:
+        schedule = None
+    return render(request, 'backend/shedule.html', {'menu': menu, 'title': 'Расписание', 'age_groups': age_groups, 'schedule': schedule})
 
 
 def read_post(request, post_slug):
@@ -168,3 +175,4 @@ def addPhoto(request):
 
     context = {'categories': categories}
     return render(request, 'backend/add.html', context)
+

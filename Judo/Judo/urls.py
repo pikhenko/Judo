@@ -10,7 +10,7 @@ from Judo import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('users.urls', namespace='users')),
-    path('', include('backend.urls', namespace='backend')),
+    path('', include(('backend.urls', 'backend'), namespace='backend')),
     path('auth/', include('django.contrib.auth.urls')),
 ]
 

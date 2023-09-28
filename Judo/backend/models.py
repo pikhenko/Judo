@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth import get_user_model
@@ -92,3 +93,29 @@ class PhotoGallery(models.Model):
 
     def __str__(self):
         return self.description
+
+
+class AgeGroup(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Возраст")
+    
+    class Meta:
+        verbose_name = 'Возраст'
+        verbose_name_plural = 'Возраст'
+    
+    def __str__(self):
+        return self.name
+
+    
+
+class Schedule(models.Model):
+    age_group = models.ForeignKey(AgeGroup,
+                                  related_name='age_group',
+                                  on_delete=models.CASCADE)
+    day = models.CharField(max_length=100)
+    time = models.TimeField()
+    address = models.CharField(max_length=100, default='DEFAULT VALUE', verbose_name="Адрес")
+
+    class Meta:
+        verbose_name = 'Расписание'
+        verbose_name_plural = 'Расписание'
+

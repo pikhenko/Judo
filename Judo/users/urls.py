@@ -8,7 +8,8 @@ from django.contrib.auth.views import PasswordResetCompleteView
 from django.views.generic import TemplateView
 
 from . import views
-from .views import EmailVerify
+from .views import EmailVerify, profile
+
 
 app_name = 'users'
 
@@ -72,4 +73,5 @@ urlpatterns = [
              template_name='users/password_reset_complete.html'),
          name='password_reset_complete'
          ),
+    path('profile/', profile, name='users-profile'),
 ]

@@ -2,7 +2,7 @@ from django.urls import path
 
 
 from .views import index, team, photo, shedule, add_page, login, post_list, read_post, post_comment, gallery, addPhoto, viewPhoto
-app_name = 'backend'
+pp_name = 'backend'
 
 urlpatterns = [
     path('', index, name='home'),

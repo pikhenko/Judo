@@ -437,3 +437,9 @@ ul.lang-list li a:hover {color: #fdc073;}
 .raz {
     text-align: right;
 }
+
+.my-image {
+	width: 100px;
+	height: auto;
+}
+

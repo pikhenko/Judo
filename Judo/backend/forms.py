@@ -18,8 +18,6 @@ class PhotoForm(forms.ModelForm):
         fields = ['photo']
 
 
-
-
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
