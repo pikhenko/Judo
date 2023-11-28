@@ -76,11 +76,6 @@ ul.list-articles li {
 
 .clear {clear: both;}
 
-.header {
-	background: hsl(0, 0%, 0%);
-	height: 60px;
-}
-
 .logo {
 	background: url('../images/logo.png') no-repeat 10px 5px;
 	width: 70px;
@@ -445,4 +440,12 @@ ul.lang-list li a:hover {color: #fdc073;}
   background-repeat: no-repeat; /* Не повторяем */
   background-size: cover; /* Размер фона */
   background-position: center; /* Позиция картинкипо центру */
+}
+
+.no-label label {
+    display: none;
+}
+
+.nav {
+	position: sticky;
 }

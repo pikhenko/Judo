@@ -3,7 +3,7 @@ from django.urls import path
 
 from .views import (index, team, photo, shedule, add_page, login,
                     post_list, read_post, post_comment, gallery,
-                    add_photo, view_photo, delete_photo)
+                    add_photo, view_photo, delete_photo, contact)
 app_name = 'backend'
 
 urlpatterns = [
@@ -20,4 +20,5 @@ urlpatterns = [
     path('delete_photo/<str:pk>/', delete_photo, name='delete_photo'),
     path('photo/<str:pk>/', view_photo, name='photo2'),
     path('add/', add_photo, name='add'),
+    path('contact/', contact, name='contact'),
 ]

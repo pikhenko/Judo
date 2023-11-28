@@ -1,16 +1,19 @@
 from django.core.paginator import Paginator
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
 
 from django.views.generic import DetailView
 from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required   
+from django.contrib.auth.decorators import login_required
+from datetime import datetime
 from .models import *
 from .models import Category, PhotoGallery
-from .forms import AddPostForm, CommentForm, PhotoForm
+from users.models import Profile
+from .forms import AddPostForm, CommentForm, PhotoForm, ContactForm
 
 
 menu = [{'title': "Главная", 'url_name': 'backend:home'},
-        {'title': "Посты", 'url_name': 'backend:post_list'},
+        # {'title': "Посты", 'url_name': 'backend:post_list'},
         {'title': "Фотогалерея", 'url_name': 'backend:gallery'},
         {'title': "Расписание", 'url_name': 'backend:shedule'},
         {'title': "Наша команда", 'url_name': 'backend:team'},
@@ -18,10 +21,27 @@ menu = [{'title': "Главная", 'url_name': 'backend:home'},
 
 
 def index(request):
-    context = {
-        'menu': menu,
-        'title': 'Главная страница'
-    }
+    posts = Posts.objects.order_by('time_create')[:2]
+    day_of_week = datetime.today().weekday()
+    days = days = ['Понедельник', 'Вторник', 'Среда',
+                   'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+    try:
+        schedule = Schedule.objects.get(day=days[day_of_week])
+        context = {
+            'menu': menu,
+            'title': 'Главная страница',
+            'message': 'сегодня тренировка',
+            'address': schedule.address,
+            'time': schedule.time,
+            'posts': posts,
+        }
+    except Schedule.DoesNotExist:
+        context = {
+            'menu': menu,
+            'title': 'Главная страница',
+            'message': 'сегодня нет тренировок',
+            'posts': posts,
+        }
     return render(request, 'backend/index.html', context=context)
 
 
@@ -55,14 +75,11 @@ def team(request):
 
 
 def shedule(request):
-    age_groups = AgeGroup.objects.all()
-    selected_age_group = request.GET.get('age_group')
-
-    if selected_age_group:
-        schedule = Schedule.objects.filter(age_group=selected_age_group)
-    else:
-        schedule = None
-    return render(request, 'backend/shedule.html', {'menu': menu, 'title': 'Расписание', 'age_groups': age_groups, 'schedule': schedule})
+    profile = Profile.objects.get(user=request.user)
+    schedules = Schedule.objects.filter(age_group=profile.age_group)
+    return render(request, 'backend/shedule.html', {'menu': menu,
+                                                    'title': 'Расписание',
+                                                    'schedules': schedules})
 
 
 def read_post(request, post_slug):
@@ -182,3 +199,25 @@ def add_photo(request):
     context = {'categories': categories}
     return render(request, 'backend/add.html', context)
 
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            phone = form.cleaned_data['phone']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            send_mail(
+                'Заказ звонка от {}'.format(name),
+                'Номер телефона: {}'.format(phone),
+                'Email: {}'.format(email),
+                'Сообщение от {}'.format(message),
+                'your-email@example.com',  # Адрес отправителя
+                ['admin@example.com'],  # Адрес получателя
+            )
+    else:
+        form = ContactForm()
+
+    return render(request, 'backend/contact.html', {'form': form,
+                                                    'title': 'Обратная связь',
+                                                    'menu': menu})

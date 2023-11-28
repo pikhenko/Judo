@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-from users.models import User
+from users.models import User, AgeGroup
 
 
 class PostsPhoto(models.Model):
@@ -94,18 +94,6 @@ class PhotoGallery(models.Model):
     def __str__(self):
         return self.description
 
-
-class AgeGroup(models.Model):
-    name = models.CharField(max_length=100, verbose_name="Возраст")
-    
-    class Meta:
-        verbose_name = 'Возраст'
-        verbose_name_plural = 'Возраст'
-    
-    def __str__(self):
-        return self.name
-
-    
 
 class Schedule(models.Model):
     age_group = models.ForeignKey(AgeGroup,

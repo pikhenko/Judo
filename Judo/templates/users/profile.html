@@ -27,19 +27,17 @@
                         <label class="small mb-1">Email:</label>
                             {{ user_form.email }}
                         <label class="small mb-1">Группа</label>
-                        <select class="form-select" aria-label="Выбор группы">
-                            <option selected>Выберите группу</option>
-                            <option value="1">Группа 5-7</option>
-                            <option value="2">Группа 7-12</option>
-                        </select>
+                            {{ profile_form.age_group }}
+                        <br>
+                        <label class="small mb-1">Сменить аватар:</label>
+                            {{ profile_form.avatar }}
+                        <br>
+                        <label class="small mb-1">О себе:</label>
+                            {{ profile_form.bio }}
                     </div>
                     <div class="form-group">
                         <a href="{% url 'password_change' %}">Изменить пароль</a>
-                        <hr>
-                        <label class="small mb-1">Сменить аватар:</label>
-                        {{ profile_form.avatar }}
                     </div>
-                    <label class="small mb-1">О себе:</label> {{ profile_form.bio }}
                 </div>
             </div>
             <br><br>

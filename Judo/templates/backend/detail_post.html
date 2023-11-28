@@ -20,7 +20,9 @@
     {% for comment in comments %}
       <h5 class="mt-0">
         <div class="my-image">
-          <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
+          {% if comment.author.profile.avatar %}
+            <img class="rounded-circle account-img" src="{{ comment.author.profile.avatar.url }} " style="cursor: pointer;"/>
+          {% endif %}
         </div>
         {{ comment.author.username }}
          {{ comment.created }}
