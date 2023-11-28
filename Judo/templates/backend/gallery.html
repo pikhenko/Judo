@@ -22,6 +22,9 @@
 
 
 </style>
+<p align="right">
+    <a href="{% url 'backend:add' %}" class="btn btn-dark btn-block btn-sm m-1">Редактировать</a>
+</p>
 
 
 <body class="">
@@ -58,11 +61,11 @@
     <div class="col-md-9">
         <div class="row">
 
-            {% for photo in photos %}
+            {% for photo in page_obj %}
             <div class="col-md-4">
 
                 <div class="card my-2">
-                    <a href="{% url 'backend:photo2' photo.id %}">
+                    <a href="{% url 'backend:view_photo' photo.id %}">
                         <img class="image-thumbail" src="{{photo.image.url}}" alt="Card image cap" >
                     </a>
 
@@ -72,6 +75,9 @@
                     <a href="{% url 'backend:delete_photo' photo.id %}" class="btn btn-outline-dark btn-sm m-1">delete</a>
                 </div>
             </div>
+
+
+
             {% empty %}
             <h3>No photos...</h3>
             {% endfor %}
@@ -82,5 +88,5 @@
     </div>
 
 </body>
-
+            {% include 'includes/paginator.html' %}
 {% endblock %}

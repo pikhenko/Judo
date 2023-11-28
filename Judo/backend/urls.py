@@ -18,6 +18,6 @@ urlpatterns = [
     path('<int:post_id>/comment/', post_comment, name='post_comment'),
     path('gallery', gallery, name='gallery'),
     path('delete_photo/<str:pk>/', delete_photo, name='delete_photo'),
-    path('photo/<str:pk>/', view_photo, name='photo2'),
+    path('photo/<str:pk>/', view_photo, name='view_photo'),
     path('add/', add_photo, name='add'),
 ]

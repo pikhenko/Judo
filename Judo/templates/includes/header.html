@@ -53,8 +53,12 @@
                     <a class="nav-link disabled">Отключенная</a>
                 </li>
             </ul>
+
+
+
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <form class="d-flex">
+
                     {% if request.user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link disabled">Пользователь:</a>
@@ -97,6 +101,9 @@
                         </li>
                     {% endif %}
                 </form>
+                {% if request.user.is_superuser %}
+                <a href="/admin/" class="btn btn-dark btn-block btn-sm m-1">Администрирование</a>
+                {% endif %}
             </ul>
         </div>
     </div>

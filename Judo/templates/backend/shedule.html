@@ -51,9 +51,13 @@
     </select>
     <button type="submit">Показать расписание</button>
   </form>
-  {{ schedule }}
+
   {% if schedule %}
-    <h2 >Расписание для группы  {{ selected_age_group.name }} </h2>
+    <h2 >Расписание для группы
+        {% for lesson in schedule %}
+        {{ lesson.age_group }}
+        {% endfor %}
+        </h2>
     <table class="table">
         <tr class="table-warning">
             <th>День</th>
@@ -61,7 +65,8 @@
             <th>Адрес</th>
         </tr>
         {% for lesson in schedule %}
-            <tr>
+        {{ lesson.age_group }}
+        <tr>
                 <td>{{ lesson.day }}</td>
                 <td>{{ lesson.time }}</td>
                 <td>{{ lesson.address }}</td>

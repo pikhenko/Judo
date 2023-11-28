@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+<!--<body class="m-5">-->
+    <div class="container">
+    <a href="{% url 'backend:view_photo' photo.id|add:-1 %}">← Предыдущее фотор</a>
+    <div style="display: flex; justify-content: flex-end;">
+        <a href="{% url 'backend:view_photo' photo.id|add:1 %}">Следующее фотор →</a>
+
+        </div>
+<!--<div>-->
+<!--  <a href="{% url 'backend:view_photo' photo.id|add:-1 %}" style="display: inline-block;">← Предыдущее фотор</a>-->
+<!--  <a href="https://www.example.com" style="display: inline-block;">Следующее фотор →</a>-->
+<!--</div>-->
+<p style="text-align: center;">{{ photo.description|center:50 }}</p>
+        <div class="row justify-content-center">
+            <div class="col">
+
+
+
+                <div style="height: 90vh;">
+                <div style="display: flex; justify-content: center;">
+
+                    <img src="{{ photo.image.url }}" alt="{{ photo.title }}" style="max-width: 600px; max-height: 600px;">
+
+
+                </div>
+    {% if not is_last_photo %}
+        <a href="{% url 'backend:view_photo' photo.id|add:1 %}">Следующее фотор →</a>
+    {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+{% endblock %}
