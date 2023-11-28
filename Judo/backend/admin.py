@@ -22,6 +22,12 @@ class AgeGroupAdmin(admin.ModelAdmin):
 class ScheduleAdmin(admin.ModelAdmin):
     list_display = ['age_group', 'day', 'time', 'address']
 
+
+class PhotoGalleryAdmin(admin.ModelAdmin):
+    list_display = ['image', 'category']
+
+
+admin.site.register(PhotoGallery, PhotoGalleryAdmin)
 admin.site.register(Posts, PostsAdmin)
 admin.site.register(PostsPhoto, PhotoAdmin)
 admin.site.register(Comment, CommentAdmin)

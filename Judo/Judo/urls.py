@@ -11,7 +11,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('users.urls', namespace='users')),
     path('', include(('backend.urls', 'backend'), namespace='backend')),
-    path('auth/', include('django.contrib.auth.urls')),
+    # path('auth/', include('django.contrib.auth.urls')),
+    path('api/', include('api.urls')),
 ]
 
 if settings.DEBUG:

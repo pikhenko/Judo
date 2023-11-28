@@ -119,6 +119,9 @@
                             </li>
                         {% endif %}
                     </form>
+                    {% if request.user.is_superuser %}
+                    <a href="/admin/" class="btn btn-dark btn-block btn-sm m-1">Администрирование</a>
+                    {% endif %}
                 </ul>
             </div>
         </div>

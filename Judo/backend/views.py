@@ -140,7 +140,6 @@ def signup(request):
 # @login_required(login_url='login')
 
 
-
 def gallery(request):
     user = request.user
     category = request.GET.get('category')
@@ -151,6 +150,10 @@ def gallery(request):
         photos = PhotoGallery.objects.filter(
             category__name=category)
 
+    # пагинатор
+    paginator = Paginator(photos, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     # categories = Category.objects.filter(user=user)
     categories = Category.objects.all()
@@ -158,19 +161,20 @@ def gallery(request):
     # photo_pk = PhotoGallery.objects.get()
     # del_photo = photo_pk.delete()
 
-    context = {'categories': categories, 'photos': photos, 'menu': menu, 'title': 'Фотоальбом'}
+
+    context = {'categories': categories, 'photos': photos, 'menu': menu, 'title': 'Фотоальбом', 'page_obj': page_obj}
     return render(request, 'backend/gallery.html', context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='backend:login')
 def view_photo(request, pk):
     photo = PhotoGallery.objects.get(id=pk)
-    return render(request, 'backend/photo2.html', {'photo': photo})
+    return render(request, 'backend/view_photo.html', {'menu': menu, 'photo': photo})
 
 
 def delete_photo(request, pk):
     photo_pk = PhotoGallery.objects.get(id=pk)
-    del_photo = photo_pk.delete()
+    photo_pk.delete()
     return redirect('backend:gallery')
 
 
