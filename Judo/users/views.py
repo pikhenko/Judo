@@ -10,7 +10,9 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserCreationForm
 from .forms import AuthenticationForm
 from .forms import UpdateProfileForm, UpdateUserForm
+from backend.views import menu
 from django.contrib import messages
+from .models import Profile
 
 from .utils import send_email_for_verify
 
@@ -78,17 +80,27 @@ class SignUp(CreateView):
 
 @login_required
 def profile(request):
+    user = request.user
+    if not hasattr(user, 'profile'):
+        # Создать профиль, если он не существует
+        Profile.objects.create(user=user)
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        age_form = UpdateProfileForm(request.POST, instance=request.user.profile)
 
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid() and age_form.is_valid():
             user_form.save()
             profile_form.save()
+            age_form.save()
             messages.success(request, 'Your profile is updated successfully')
             return redirect(to='users:users-profile')
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
-
-    return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+        age_form = UpdateProfileForm(instance=request.user.profile)
+    
+    return render(request, 'users/profile.html', {'menu': menu,
+                                                  'user_form': user_form,
+                                                  'profile_form': profile_form,
+                                                  'age_form': age_form})

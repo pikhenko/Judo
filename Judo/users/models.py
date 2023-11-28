@@ -5,6 +5,17 @@ from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
 
+class AgeGroup(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Возраст")
+    
+    class Meta:
+        verbose_name = 'Возраст'
+        verbose_name_plural = 'Возраст'
+    
+    def __str__(self):
+        return self.name
+
+    
 class User(AbstractUser):
     email = models.EmailField(
         _('email address'),
@@ -22,6 +33,7 @@ class Profile(models.Model):
 
     avatar = models.ImageField(default='ava1.jpg', upload_to='profile_images')
     bio = models.TextField()
+    age_group = models.ForeignKey(AgeGroup, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.user.username
@@ -36,3 +48,8 @@ class Profile(models.Model):
             new_img = (100, 100)
             img.thumbnail(new_img)
             img.save(self.avatar.path)
+    
+
+    class Meta:
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профили'

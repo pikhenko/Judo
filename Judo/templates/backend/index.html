@@ -1,8 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{ title }}</h1>
 
+{% if message == "сегодня тренировка" %}
+    <p style="text-align: right;">{{ user.username }}, {{ message }} в {{ time }} по адресу {{ address }}
+        <a href="{% url 'backend:shedule' %}">
+            <button type="submit" class="btn btn-dark btn-lg">Открыть расписание</button>
+        </a>
+    </p>
+{% else %}
+    <p style="text-align: right;">{{ user.username }}, {{ message }}
+        <a href="{% url 'backend:shedule' %}">
+            <button type="submit" class="btn btn-dark btn-lg">Открыть расписание</button>
+        </a>
+    </p>
+{% endif %}
+<img src="/static/images/lion.png" class="rounded float-left" alt="" width="300" height="300">
+<h1 class="display-2">Клуб единоборств <br> "Fire Lions" </h1>
+<h3>Новости</h3>
+{% for post in posts %}
+    <li>
+        {% if post.photo %}
+            <p><img class="img-article-left thumb" src="{{post.photo.url}}"></p>
+        {% endif %}
+        <h2>{{post.title}}</h2>
+        <p>{{post.content|linebreaks|truncatewords:50}}</p>
+        <div class="clear"></div>
+        <p style="text-align: right;">
+            <a href="{{ post.get_absolute_url }}">
+                <button type="submit" class="btn btn-dark btn-lg">Читать запись</button>
+            </a>
+        </p>
+        <hr>
+    </li>
+{% endfor %}
 <div class="container-fluid my-carousel">
     <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-indicators">
@@ -33,17 +64,6 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <p>ываываыв</p>
-    <p>ываываыв</p>
-    <p>ываываыв</p>
-    <p>ываываыв</p>
-    <p>ываываыв</p>
-
-    авы
-    аыв
-    выа
-    ыв
-    аыв
-
+    
 </div>
 {% endblock %}
