@@ -12,7 +12,11 @@
         <h2>{{p.title}}</h2>
         <p>{{p.content|linebreaks|truncatewords:50}}</p>
         <div class="clear"></div>
-        <p class="link-read-post"><a href="{{ p.get_absolute_url }}">Читать запись</a></p>
+        <p style="text-align: right;">
+            <a href="{{ p.get_absolute_url }}">
+                <button type="submit" class="btn btn-dark btn-lg">Читать запись</button>
+            </a>
+        </p>
         <hr>
     </li>
     {% endfor %}

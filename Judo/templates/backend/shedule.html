@@ -39,45 +39,16 @@
 
 </div>-->
 
-
 <h1>{{ title }}</h1>
   <form action="{% url 'backend:shedule' %}" method="GET">
-          
-    <select name="age_group" id="age_group">
-        <option selected>Выберите группу</option>
-        {% for age_group in age_groups %}
-            <option value="{{ age_group.id }}">{{ age_group }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit">Показать расписание</button>
+    {% for schedule in schedules %}
+    <p>Время:{{ schedule.time }}, День:{{ schedule.day }}, Адрес:{{ schedule.address }}</p>
+    {% endfor %}
   </form>
-
-  {% if schedule %}
-    <h2 >Расписание для группы
-        {% for lesson in schedule %}
-        {{ lesson.age_group }}
-        {% endfor %}
-        </h2>
-    <table class="table">
-        <tr class="table-warning">
-            <th>День</th>
-            <th>Время начала занятий</th>
-            <th>Адрес</th>
-        </tr>
-        {% for lesson in schedule %}
-        {{ lesson.age_group }}
-        <tr>
-                <td>{{ lesson.day }}</td>
-                <td>{{ lesson.time }}</td>
-                <td>{{ lesson.address }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-  {% else %}
-    <p>Пожалуйста выберите группу.</p>
-  {% endif %}
 
   <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1b4759a829ad28ef7e5a6ca17d5cd9f0816758eef29aa01f6fb3a42369d097c9&amp;width=711&amp;height=501&amp;lang=ru_RU&amp;scroll=true"></script>
 
-
 {% endblock %}
+
+
+
