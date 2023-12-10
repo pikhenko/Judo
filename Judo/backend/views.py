@@ -7,7 +7,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from .models import *
-from .models import Category, PhotoGallery
+from .models import Category, PhotoGallery, News
 from users.models import Profile
 from .forms import AddPostForm, CommentForm, PhotoForm, ContactForm
 
@@ -16,12 +16,13 @@ menu = [{'title': "Главная", 'url_name': 'backend:home'},
         # {'title': "Посты", 'url_name': 'backend:post_list'},
         {'title': "Фотогалерея", 'url_name': 'backend:gallery'},
         {'title': "Расписание", 'url_name': 'backend:shedule'},
-        {'title': "Наша команда", 'url_name': 'backend:team'},
+        {'title': "О тренере", 'url_name': 'backend:team'},
         ]
 
 
 def index(request):
     posts = Posts.objects.order_by('time_create')[:2]
+    news_list = News.objects.all()
     day_of_week = datetime.today().weekday()
     days = days = ['Понедельник', 'Вторник', 'Среда',
                    'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
@@ -34,6 +35,7 @@ def index(request):
             'address': schedule.address,
             'time': schedule.time,
             'posts': posts,
+            'news_list' : news_list,
         }
     except Schedule.DoesNotExist:
         context = {
@@ -41,6 +43,7 @@ def index(request):
             'title': 'Главная страница',
             'message': 'сегодня нет тренировок',
             'posts': posts,
+            'news_list' : news_list,
         }
     return render(request, 'backend/index.html', context=context)
 
@@ -71,7 +74,7 @@ def photo(request):
 
 
 def team(request):
-    return render(request, 'backend/team.html', {'menu': menu, 'title': 'Наша команда'})
+    return render(request, 'backend/team.html', {'menu': menu, 'title': 'О тренере'})
 
 
 def shedule(request):
@@ -225,3 +228,8 @@ def contact(request):
     return render(request, 'backend/contact.html', {'form': form,
                                                     'title': 'Обратная связь',
                                                     'menu': menu})
+
+def news(request):
+    news_list = News.objects.all()
+    context = {'news_list': news_list}
+    return render(request, 'backend/news.html', context)

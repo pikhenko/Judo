@@ -27,10 +27,15 @@ class PhotoGalleryAdmin(admin.ModelAdmin):
     list_display = ['image', 'category']
 
 
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ['title', 'content', 'pub_date', 'author']
+
+
 admin.site.register(PhotoGallery, PhotoGalleryAdmin)
 admin.site.register(Posts, PostsAdmin)
 admin.site.register(PostsPhoto, PhotoAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(AgeGroup, AgeGroupAdmin)
 admin.site.register(Schedule,ScheduleAdmin)
+admin.site.register(News, NewsAdmin)
 

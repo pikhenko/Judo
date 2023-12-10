@@ -11,12 +11,31 @@
 {% else %}
     <p style="text-align: right;">{{ user.username }}, {{ message }}
         <a href="{% url 'backend:shedule' %}">
-            <button type="submit" class="btn btn-dark btn-lg">Открыть расписание</button>
+            <button type="submit" class="btn btn-dark btn-block btn-sm m-1">Открыть расписание</button>
         </a>
     </p>
 {% endif %}
-<img src="/static/images/lion.png" class="rounded float-left" alt="" width="300" height="300">
-<h1 class="display-2">Клуб единоборств <br> "Fire Lions" </h1>
+<div class="d-flex align-items-center" style="position: relative; height: 350px;">
+    <img src="/static/images/lion.png" class="rounded" alt="" width="300" height="300" style="margin-right: 50px;">
+    <h1 class="display-2">Клуб <br> единоборств <br> "Fire Lions" </h1>
+    <div style="width: 200px; position: absolute; top: 0; right: 0;">
+        <img src="/static/images/trainer.webp" alt="Тренер" width="200" height="auto" style="margin: 15px;">
+        <p class="lead" style="margin: 15px;">Главный тренер клуба "Fire Lions"
+            <a href="{% url 'backend:team' %}">
+                <button type="submit" class="btn btn-dark btn-block btn-sm m-1">О тренере</button>
+            </a>
+        </p>
+    </div>
+</div>
+    {% for news in news_list %}
+    <div style="background-color: orange; position: relative; z-index: 1; margin-top: 100px; padding: 10px; width: 100%;">
+        <h3>Информация от Сен-сея</h3>
+        <h3>{{ news.title }}</h3>
+        <p>{{ news.content }}</p>
+        <p>Published on: {{ news.pub_date }}</p>
+        <p>Author: {{ news.author }}</p>
+    </div>
+    {% endfor %}
 <h3>Новости</h3>
 {% for post in posts %}
     <li>
@@ -28,7 +47,7 @@
         <div class="clear"></div>
         <p style="text-align: right;">
             <a href="{{ post.get_absolute_url }}">
-                <button type="submit" class="btn btn-dark btn-lg">Читать запись</button>
+                <button type="submit" class="btn btn-dark btn-block btn-sm m-1">Читать запись</button>
             </a>
         </p>
         <hr>

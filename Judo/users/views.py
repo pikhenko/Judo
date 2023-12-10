@@ -87,20 +87,17 @@ def profile(request):
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        age_form = UpdateProfileForm(request.POST, instance=request.user.profile)
 
-        if user_form.is_valid() and profile_form.is_valid() and age_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            age_form.save()
             messages.success(request, 'Your profile is updated successfully')
             return redirect('users:profile')
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
-        age_form = UpdateProfileForm(instance=request.user.profile)
     
     return render(request, 'users/profile.html', {'menu': menu,
                                                   'user_form': user_form,
-                                                  'profile_form': profile_form,
-                                                  'age_form': age_form})
+                                                  'profile_form': profile_form,})
+
