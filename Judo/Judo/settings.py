@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'backend.apps.BackendConfig',
     # 'users.apps.UsersConfig',
     'core.apps.CoreConfig',
-    'users'
+    'users',
+    'fancybox'
 ]
 
 MIDDLEWARE = [

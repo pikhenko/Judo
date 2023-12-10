@@ -1,5 +1,6 @@
 from django import forms
 from .models import *
+from django.forms import ModelForm
 
 
 class AddPostForm(forms.ModelForm):
@@ -46,4 +47,7 @@ class ContactForm(forms.Form):
             attrs={'class': 'no-label', 'placeholder': 'Сообщение'}
         )
     )
-    
+
+
+
+

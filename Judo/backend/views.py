@@ -1,23 +1,47 @@
 from django.core.paginator import Paginator
 from django.core.mail import send_mail
-from django.shortcuts import render, redirect, get_object_or_404
-
-from django.views.generic import DetailView
+from django.http import HttpResponse
+from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from pytils.translit import slugify
+
 from .models import *
 from .models import Category, PhotoGallery, News
+from .models import Category, PhotoGallery
+from .models import File
 from users.models import Profile
 from .forms import AddPostForm, CommentForm, PhotoForm, ContactForm
 
 
-menu = [{'title': "Главная", 'url_name': 'backend:home'},
-        # {'title': "Посты", 'url_name': 'backend:post_list'},
-        {'title': "Фотогалерея", 'url_name': 'backend:gallery'},
+menu = [
+        # {'title': "Главная", 'url_name': 'backend:home'},
+        {'title': "Новости", 'url_name': 'backend:shedule'},
         {'title': "Расписание", 'url_name': 'backend:shedule'},
         {'title': "О тренере", 'url_name': 'backend:team'},
+        {'title': "Фотогалерея", 'url_name': 'backend:gallery'},
+        {'title': "Цены", 'url_name': 'backend:team'},
+        {'title': "Тренер", 'url_name': 'backend:team'},
+        {'title': "О клубе", 'url_name': 'backend:team'},
         ]
+
+
+def download_file(request, file_id):
+    file = get_object_or_404(File, id=file_id)
+    response = HttpResponse(file.file, content_type='application/octet-stream')
+    file_name = file.file.name.split('/')[-1]
+    if file_name.isascii():
+        response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+    else:
+        file_name_name = file_name.split('.')[0]
+        file_name_ext = file_name.split('.')[-1]
+        file_name_name = slugify(file_name_name)
+        file_name_ext = file_name_name + "." + file_name_ext
+        response['Content-Disposition'] = f'attachment; filename="{file_name_ext}"'
+    return response
+
 
 
 def index(request):
@@ -26,6 +50,9 @@ def index(request):
     day_of_week = datetime.today().weekday()
     days = days = ['Понедельник', 'Вторник', 'Среда',
                    'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+    files = File.objects.all()
+
+
     try:
         schedule = Schedule.objects.get(day=days[day_of_week])
         context = {
@@ -36,6 +63,8 @@ def index(request):
             'time': schedule.time,
             'posts': posts,
             'news_list' : news_list,
+            'files': files,
+
         }
     except Schedule.DoesNotExist:
         context = {
@@ -44,6 +73,8 @@ def index(request):
             'message': 'сегодня нет тренировок',
             'posts': posts,
             'news_list' : news_list,
+            'files': files,
+
         }
     return render(request, 'backend/index.html', context=context)
 
@@ -147,24 +178,14 @@ def gallery(request):
     user = request.user
     category = request.GET.get('category')
     if category == None:
-        # photos = PhotoGallery.objects.filter(category__user=user)
         photos = PhotoGallery.objects.all()
     else:
         photos = PhotoGallery.objects.filter(
             category__name=category)
-
-    # пагинатор
     paginator = Paginator(photos, 9)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
-    # categories = Category.objects.filter(user=user)
     categories = Category.objects.all()
-
-    # photo_pk = PhotoGallery.objects.get()
-    # del_photo = photo_pk.delete()
-
-
     context = {'categories': categories, 'photos': photos, 'menu': menu, 'title': 'Фотоальбом', 'page_obj': page_obj}
     return render(request, 'backend/gallery.html', context)
 
@@ -233,3 +254,4 @@ def news(request):
     news_list = News.objects.all()
     context = {'news_list': news_list}
     return render(request, 'backend/news.html', context)
+

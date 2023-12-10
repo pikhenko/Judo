@@ -30,6 +30,8 @@ class PhotoGalleryAdmin(admin.ModelAdmin):
 class NewsAdmin(admin.ModelAdmin):
     list_display = ['title', 'content', 'pub_date', 'author']
 
+class FileAdmin(admin.ModelAdmin):
+    list_display = ['title']
 
 admin.site.register(PhotoGallery, PhotoGalleryAdmin)
 admin.site.register(Posts, PostsAdmin)
@@ -38,4 +40,5 @@ admin.site.register(Comment, CommentAdmin)
 admin.site.register(AgeGroup, AgeGroupAdmin)
 admin.site.register(Schedule,ScheduleAdmin)
 admin.site.register(News, NewsAdmin)
+admin.site.register(File, FileAdmin)
 
