@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'backend.apps.BackendConfig',
     # 'users.apps.UsersConfig',
     'core.apps.CoreConfig',
-    'users'
+    'users',
+    'fancybox'
 ]
 
 MIDDLEWARE = [
@@ -137,7 +138,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'apikhenko@gmail.com'
-EMAIL_HOST_PASSWORD = 'pkdwtdgcdrqdcrhf'
+EMAIL_HOST_PASSWORD = 'nhhdxnkzdhaqggxv'
 
 # CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
 

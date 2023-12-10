@@ -2,6 +2,7 @@
 
 {% block content %}
 
+
 {% if message == "сегодня тренировка" %}
     <p style="text-align: right;">{{ user.username }}, {{ message }} в {{ time }} по адресу {{ address }}
         <a href="{% url 'backend:shedule' %}">

@@ -2,10 +2,9 @@
 
 {% block content %}
 
-
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.js"></script>
 
 <style>
     .image-thumbail {
@@ -14,18 +13,17 @@
         object-fit: cover;
 
     }
-
     .list-group-item a {
         text-decoration: none;
         color: black;
     }
-
-
 </style>
+
+
+
 <p align="right">
     <a href="{% url 'backend:add' %}" class="btn btn-dark btn-block btn-sm m-1">Редактировать</a>
 </p>
-
 
 <body class="">
     <div class="container">
@@ -48,7 +46,9 @@
                         <li class=" list-group-item">
                             <a href="{% url 'backend:gallery' %}?category={{category.name}}">
                                 {{category.name}}
+                            <a href="/admin/backend/file/add/" class="btn btn-dark btn-block  m-3">Удалить</a>
                             </a>
+
                         </li>
                         {% endfor %}
                         {% if request.user.is_superuser %}
@@ -63,20 +63,13 @@
 
             {% for photo in page_obj %}
             <div class="col-md-4">
-
                 <div class="card my-2">
-                    <a href="{% url 'backend:view_photo' photo.id %}">
+                  <a href="{{ photo.image.url }}" data-fancybox="gallery">
                         <img class="image-thumbail" src="{{photo.image.url}}" alt="Card image cap" >
                     </a>
-
-<!--                    <div class="">-->
-<!--                        <small>{{photo.description}}</small>-->
-<!--                    </div>-->
                     <a href="{% url 'backend:delete_photo' photo.id %}" class="btn btn-outline-dark btn-sm m-1">delete</a>
                 </div>
             </div>
-
-
 
             {% empty %}
             <h3>No photos...</h3>
@@ -88,5 +81,5 @@
     </div>
 
 </body>
-            {% include 'includes/paginator.html' %}
+{% include 'includes/paginator.html' %}
 {% endblock %}

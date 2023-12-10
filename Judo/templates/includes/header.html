@@ -62,17 +62,22 @@
                             Скачать
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Бело-желтый пояс</a></li>
-                            <li><a class="dropdown-item" href="#">Желтый пояс</a></li>
+
+
+                            <li>
+                            {% for file in files %}
+                            <li><a class="dropdown-item" href="{% url 'backend:download_file' file.id %}">{{ file.title }}</a></li>
+                            {% empty %}
+                             <li><a class="dropdown-item">Нет файлов.</a></li>
+                            {% endfor %}
+
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
+                           <div style="text-align:center;">
+                            <a href="/admin/backend/file/add/" class="btn btn-dark btn-block btn-sm m-1">Загрузить файл</a>
+                           </div>
                         </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link disabled">Отключенная</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">

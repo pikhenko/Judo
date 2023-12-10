@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Список файлов</h1>
+  <ul>
+    {% for file in files %}
+      <li><a href="{% url 'download_file' file.id %}"></a></li>
+    {% empty %}
+      <li>Нет файлов.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

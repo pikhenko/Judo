@@ -27,10 +27,14 @@ class PhotoGalleryAdmin(admin.ModelAdmin):
     list_display = ['image', 'category']
 
 
+class FileAdmin(admin.ModelAdmin):
+    list_display = ['title']
+
 admin.site.register(PhotoGallery, PhotoGalleryAdmin)
 admin.site.register(Posts, PostsAdmin)
 admin.site.register(PostsPhoto, PhotoAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(AgeGroup, AgeGroupAdmin)
 admin.site.register(Schedule,ScheduleAdmin)
+admin.site.register(File, FileAdmin)
 
