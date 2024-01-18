@@ -89,12 +89,18 @@ class PhotoGallery(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True)
     image = models.ImageField(upload_to="photos/%Y/%m/%d/", null=False, blank=False)
-    description = models.TextField()
+    # description = models.TextField()
     date = models.DateTimeField(
         'Дата добавления', auto_now_add=True, db_index=True)
 
     def __str__(self):
-        return self.description
+        return self.category
+
+
+def delete_category(request, category_id):
+    category = Category.objects.get(id=category_id)
+    PhotoGallery.objects.filter(category=category).delete()
+    category.delete()
 
 
 class Schedule(models.Model):

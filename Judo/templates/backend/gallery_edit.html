@@ -19,11 +19,13 @@
     }
 </style>
 
+        {% if request.user.is_superuser %}
+            <p align="right">
+                <a href="{% url 'backend:gallery' %}" class="btn btn-dark btn-block btn-sm m-1">Закрыть редактирование</a>
+            </p>
+        {% endif %}
 
 
-<p align="right">
-    <a href="{% url 'backend:gallery_edit' %}" class="btn btn-dark btn-block btn-sm m-1">Редактировать</a>
-</p>
 
 <body class="">
     <div class="container">
@@ -49,6 +51,13 @@
                             <a href="{% url 'backend:gallery' %}?category={{category.name}}">
                               <div style="display: flex; justify-content: space-between;">
                             {{category.name}}
+                        {% if request.user.is_superuser %}
+
+                            <form action="{% url 'backend:delete_category' category.id %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-outline-dark btn-sm m-0" type="">Удалить</button>
+                            </form>
+                          {% endif %}
                             </div>
                             </a>
 
@@ -71,6 +80,9 @@
                   <a href="{{ photo.image.url }}" data-fancybox="gallery">
                         <img class="image-thumbail" src="{{photo.image.url}}" alt="Card image cap" >
                     </a>
+                    {% if request.user.is_superuser %}
+                        <a href="{% url 'backend:delete_photo' photo.id %}" class="btn btn-outline-dark btn-sm m-1">delete</a>
+                    {% endif %}
 
                 </div>
             </div>
