@@ -1,10 +1,9 @@
 from django.urls import path
 
-
 from .views import (index, team, photo, shedule, add_page, login,
                     post_list, read_post, post_comment, gallery, gallery_edit,
                     add_photo, view_photo, delete_photo, contact, download_file,
-                    delete_category)
+                    delete_category, news)
 app_name = 'backend'
 
 urlpatterns = [
@@ -23,6 +22,7 @@ urlpatterns = [
     path('photo/<str:pk>/', view_photo, name='view_photo'),
     path('add/', add_photo, name='add'),
     path('contact/', contact, name='contact'),
+    path('news/', news, name='news'),
     path('download/<int:file_id>/', download_file, name='download_file'),
     path('category/<int:pk>/', delete_category, name='delete_category'),
 ]

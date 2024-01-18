@@ -116,6 +116,18 @@ class Schedule(models.Model):
         verbose_name_plural = 'Расписание'
 
 
+class News(models.Model):
+    class Meta:
+        verbose_name = 'Новости'
+        verbose_name_plural = 'Новости'
+    
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    pub_date = models.DateTimeField('date published')
+    author = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title
 class File(models.Model):
     title = models.CharField(max_length=150)
     file = models.FileField(upload_to='files/')

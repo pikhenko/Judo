@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% for news in news_list %}
+      <h3>{{ news.title }}</h3>
+      <p>{{ news.content }}</p>
+      <p>Published on: {{ news.pub_date }}</p>
+      <p>Author: {{ news.author }}</p>
+  {% endfor %}
+{% endblock %}

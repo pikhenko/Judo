@@ -120,8 +120,8 @@ USE_L10N = True
 USE_TZ = True
 
 # Media
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Statics
 STATIC_URL = '/static/'
@@ -137,8 +137,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'apikhenko@gmail.com'
-EMAIL_HOST_PASSWORD = 'nhhdxnkzdhaqggxv'
+EMAIL_HOST_USER = 'seryonka88@gmail.com'
+EMAIL_HOST_PASSWORD = 'rsnk daut lsot hfce'
 
 # CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
 

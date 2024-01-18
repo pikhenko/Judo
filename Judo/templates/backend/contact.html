@@ -3,6 +3,8 @@
 {% block content %}
 <h1>{{ title }}</h1>
 <p>Свяжитесь с нами</p>
+
+
 <form method="post">
     {% csrf_token %}
     {% for f in form %}
