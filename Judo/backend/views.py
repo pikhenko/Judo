@@ -44,7 +44,6 @@ def download_file(request, file_id):
     return response
 
 
-
 def index(request):
     posts = Posts.objects.order_by('time_create')[:2]
     news_list = News.objects.all()
@@ -190,8 +189,6 @@ def signup(request):
 
 
 # @login_required(login_url='login')
-
-
 def gallery(request):
     user = request.user
     category = request.GET.get('category')
@@ -208,21 +205,38 @@ def gallery(request):
     return render(request, 'backend/gallery.html', context)
 
 
-@login_required(login_url='backend:login')
+def gallery_edit(request):
+    user = request.user
+    category = request.GET.get('category')
+    if category == None:
+        photos = PhotoGallery.objects.all()
+    else:
+        photos = PhotoGallery.objects.filter(
+            category__name=category)
+    paginator = Paginator(photos, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    categories = Category.objects.all()
+    context = {'categories': categories, 'photos': photos, 'menu': menu, 'title': 'Фотоальбом', 'page_obj': page_obj}
+    return render(request, 'backend/gallery_edit.html', context)
+
+
 def view_photo(request, pk):
     photo = PhotoGallery.objects.get(id=pk)
     return render(request, 'backend/view_photo.html', {'menu': menu, 'photo': photo})
 
 
+@login_required(login_url='backend:login')
 def delete_photo(request, pk):
     photo_pk = PhotoGallery.objects.get(id=pk)
     photo_pk.delete()
-    return redirect('backend:gallery')
+    return redirect('backend:gallery_edit')
 
 
 @login_required(login_url='login')
 def add_photo(request):
     user = request.user
+    categories = user.category_set.all()
     categories = user.category_set.all()
     if request.method == 'POST':
         data = request.POST
@@ -238,12 +252,19 @@ def add_photo(request):
         for image in images:
             photo = PhotoGallery.objects.create(
                 category=category,
-                description=data['description'],
                 image=image,
             )
         return redirect('backend:gallery')
     context = {'categories': categories}
     return render(request, 'backend/add.html', context)
+
+
+def delete_category(request, pk):
+    category = Category.objects.get(id=pk)
+    PhotoGallery.objects.filter(category=category).delete()
+    category.delete()
+    return redirect('backend:gallery')
+
 
 def contact(request):
     if request.method == 'POST':
