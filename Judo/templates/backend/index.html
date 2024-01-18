@@ -10,7 +10,7 @@
         </a>
     </p>
 {% else %}
-    <p style="text-align: right;">{{ user.username }}, {{ message }}
+    <p style="text-align: right;">{{ user.username }} {{ message }}
         <a href="{% url 'backend:shedule' %}">
             <button type="submit" class="btn btn-dark btn-block btn-sm m-1">Открыть расписание</button>
         </a>

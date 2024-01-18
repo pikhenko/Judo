@@ -1,10 +1,12 @@
 from django.core.paginator import Paginator
 from django.core.mail import send_mail
+from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+from django.db.models import Case, When, Value, IntegerField
 from datetime import datetime
 from pytils.translit import slugify
 
@@ -17,10 +19,9 @@ from .forms import AddPostForm, CommentForm, PhotoForm, ContactForm
 
 
 menu = [
-        # {'title': "Главная", 'url_name': 'backend:home'},
+        {'title': "Обратная связь", 'url_name': 'backend:contact'},
         {'title': "Новости", 'url_name': 'backend:shedule'},
         {'title': "Расписание", 'url_name': 'backend:shedule'},
-        {'title': "О тренере", 'url_name': 'backend:team'},
         {'title': "Фотогалерея", 'url_name': 'backend:gallery'},
         {'title': "Цены", 'url_name': 'backend:team'},
         {'title': "Тренер", 'url_name': 'backend:team'},
@@ -54,11 +55,14 @@ def index(request):
 
 
     try:
-        schedule = Schedule.objects.get(day=days[day_of_week])
+        schedules = Schedule.objects.filter(day=days[day_of_week])
+        for schedule in schedules:
+            print(schedule.address)
+        message = 'сегодня тренировка' if request.user.is_authenticated else 'Добро пожаловать!'
         context = {
             'menu': menu,
             'title': 'Главная страница',
-            'message': 'сегодня тренировка',
+            'message': message,
             'address': schedule.address,
             'time': schedule.time,
             'posts': posts,
@@ -67,10 +71,11 @@ def index(request):
 
         }
     except Schedule.DoesNotExist:
+        message = 'сегодня нет тренировок' if request.user.is_authenticated else 'Добро пожаловать!'
         context = {
             'menu': menu,
             'title': 'Главная страница',
-            'message': 'сегодня нет тренировок',
+            'message': message,
             'posts': posts,
             'news_list' : news_list,
             'files': files,
@@ -109,8 +114,21 @@ def team(request):
 
 
 def shedule(request):
-    profile = Profile.objects.get(user=request.user)
-    schedules = Schedule.objects.filter(age_group=profile.age_group)
+    days_order = Case(
+        When(day='Понедельник', then=Value(1)),
+        When(day='Вторник', then=Value(2)),
+        When(day='Среда', then=Value(3)),
+        When(day='Четверг', then=Value(4)),
+        When(day='Пятница', then=Value(5)),
+        When(day='Суббота', then=Value(6)),
+        When(day='Воскресенье', then=Value(7)),
+        output_field=IntegerField(),
+    )
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user=request.user)
+        schedules = Schedule.objects.filter(age_group=profile.age_group).order_by(days_order)
+    else:
+        schedules = Schedule.objects.all().order_by('age_group', days_order)
     return render(request, 'backend/shedule.html', {'menu': menu,
                                                     'title': 'Расписание',
                                                     'schedules': schedules})
@@ -237,19 +255,20 @@ def contact(request):
             message = form.cleaned_data['message']
             send_mail(
                 'Заказ звонка от {}'.format(name),
-                'Номер телефона: {}'.format(phone),
-                'Email: {}'.format(email),
-                'Сообщение от {}'.format(message),
-                'your-email@example.com',  # Адрес отправителя
-                ['admin@example.com'],  # Адрес получателя
+                'Номер телефона: {}\nEmail: {}\nСообщение от {}\n {}'.format(phone, email, name, message),
+                '"{}" <your-email@example.com>'.format(name),  # Адрес отправителя
+                ['seryonka88@gmail.com'],  # Адрес получателя
             )
+            messages.success(request, 'Ваше сообщение было успешно отправлено!')
+            return redirect('backend:contact')
+        else:
+            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
     else:
         form = ContactForm()
 
     return render(request, 'backend/contact.html', {'form': form,
                                                     'title': 'Обратная связь',
                                                     'menu': menu})
-
 def news(request):
     news_list = News.objects.all()
     context = {'news_list': news_list}

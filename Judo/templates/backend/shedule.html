@@ -41,13 +41,30 @@
 
 <h1>{{ title }}</h1>
   <form action="{% url 'backend:shedule' %}" method="GET">
-    {% for schedule in schedules %}
-    <p>Время:{{ schedule.time }}, День:{{ schedule.day }}, Адрес:{{ schedule.address }}</p>
-    {% endfor %}
-  </form>
-
-  <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1b4759a829ad28ef7e5a6ca17d5cd9f0816758eef29aa01f6fb3a42369d097c9&amp;width=711&amp;height=501&amp;lang=ru_RU&amp;scroll=true"></script>
-
+    <div style="display: flex; justify-content: space-between;">
+      <div>
+        <table style="border-spacing: 10px; border-collapse: separate;">
+          <tr>
+            <th>Время</th>
+            <th>День</th>
+            <th>Адрес</th>
+            <th>Группа</th>
+          </tr>
+          {% for schedule in schedules %}
+          <tr>
+            <td>{{ schedule.time }}</td>
+            <td>{{ schedule.day }}</td>
+            <td>{{ schedule.address }}</td>
+            <td>{{ schedule.age_group }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      <div> 
+        <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1b4759a829ad28ef7e5a6ca17d5cd9f0816758eef29aa01f6fb3a42369d097c9&amp;width=711&amp;height=501&amp;lang=ru_RU&amp;scroll=true"></script>
+      </div>
+    </div>
+  </form> 
 {% endblock %}
 
 
