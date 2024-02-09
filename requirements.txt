@@ -4,7 +4,10 @@ Django==4.2.2
 django-fancybox==0.1.6
 djangorestframework==3.14.0
 future==0.18.3
+gunicorn==21.2.0
+packaging==23.2
 Pillow==10.0.0
+psycopg2-binary==2.9.9
 pyenchant==3.2.2
 pytils==0.4.1
 pytz==2023.3.post1

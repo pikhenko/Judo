@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.urls import include
 from django.urls import path
 
-from judo import settings
+from Judo import settings
 # from backend.views import *
 
 
