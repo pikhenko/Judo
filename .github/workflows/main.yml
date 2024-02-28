@@ -40,6 +40,7 @@ jobs:
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
           # Выполняет pull образа с DockerHub
+          cd /home/
           sudo docker pull apikhenko/judo:latest
           sudo docker-compose stop
           sudo docker-compose rm web
