@@ -43,7 +43,7 @@ jobs:
           cd /home/
           sudo docker pull apikhenko/judo:latest
           sudo docker-compose stop
-          sudo docker-compose rm web
+          # sudo docker-compose rm web
           rm .env
           touch .env
           echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
