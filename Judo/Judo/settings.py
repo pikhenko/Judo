@@ -28,6 +28,8 @@ ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'users.User'
 
+CSRF_TRUSTED_ORIGINS = ['https://judofl.ru']
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
