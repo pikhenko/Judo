@@ -151,6 +151,7 @@ def read_post(request, post_slug):
     return render(request, 'backend/detail_post.html', context)
 
 
+@login_required(login_url='backend:login')
 def add_page(request):
     if request.method == 'POST':
         form = AddPostForm(request.POST, request.FILES)
