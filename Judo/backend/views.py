@@ -11,7 +11,7 @@ from datetime import datetime
 from pytils.translit import slugify
 
 from .models import *
-from .models import Category, PhotoGallery, News
+from .models import Category, PhotoGallery, News, Schedule
 from .models import Category, PhotoGallery
 from .models import File
 from users.models import Profile
@@ -52,7 +52,6 @@ def index(request):
                    'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
     files = File.objects.all()
 
-
     try:
         schedules = Schedule.objects.filter(day=days[day_of_week])
         for schedule in schedules:
@@ -62,8 +61,8 @@ def index(request):
             'menu': menu,
             'title': 'Главная страница',
             'message': message,
-            'address': schedule.address,
-            'time': schedule.time,
+            # 'address': schedule.address,
+            # 'time': schedule.time,
             'posts': posts,
             'news_list' : news_list,
             'files': files,
@@ -78,7 +77,6 @@ def index(request):
             'posts': posts,
             'news_list' : news_list,
             'files': files,
-
         }
     return render(request, 'backend/index.html', context=context)
 
