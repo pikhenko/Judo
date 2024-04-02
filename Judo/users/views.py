@@ -23,8 +23,18 @@ from django.views.generic import CreateView
 User = get_user_model()
 
 
-class MyLoginView(LoginView):
-    form_class = AuthenticationForm
+# class MyLoginView(LoginView):
+#     form_class = AuthenticationForm
+#     template_name = 'users:login'
+
+#     def get(self, request):
+#         context = {
+#             'menu': menu,
+#         }
+#         return render(request, self.template_name, context)
+def my_login_view(request, *args, **kwargs):
+    view = LoginView.as_view(template_name='users/login.html', extra_context={'menu': menu})
+    return view(request, *args, **kwargs)
 
 
 class EmailVerify(View):
@@ -58,6 +68,7 @@ class SignUp(CreateView):
 
     def get(self, request):
         context = {
+            'menu': menu,
             'form': UserCreationForm()
         }
         return render(request, self.template_name, context)
@@ -73,6 +84,7 @@ class SignUp(CreateView):
             send_email_for_verify(request, user)
             return redirect('users:confirm_email')
         context = {
+            'menu': menu,
             'form': form
         }
         return render(request, self.template_name, context)

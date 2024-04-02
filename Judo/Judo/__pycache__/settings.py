@@ -28,8 +28,6 @@ ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'users.User'
 
-# CSRF_TRUSTED_ORIGINS = ["http://localhost:8000"]
-
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -157,5 +155,3 @@ EMAIL_HOST_PASSWORD = 'atqu hkcg gjip gckh'
 # CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1']

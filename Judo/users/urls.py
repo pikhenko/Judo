@@ -8,7 +8,7 @@ from django.contrib.auth.views import PasswordResetCompleteView
 from django.views.generic import TemplateView
 
 from . import views
-from .views import EmailVerify, profile
+from .views import EmailVerify, profile, my_login_view
 
 
 app_name = 'users'
@@ -18,9 +18,9 @@ urlpatterns = [
          name='logout'),
     path('signup/', views.SignUp.as_view(),
          name='signup'),
-    path('login/',
-         LoginView.as_view(template_name='users/login.html'),
-         name='login'),
+    # path('login/',
+    #      LoginView.as_view(template_name='users/login.html'),
+    #      name='login'),
 
     path(
         'invalid_verify/',
@@ -74,4 +74,5 @@ urlpatterns = [
          name='password_reset_complete'
          ),
     path('profile/', profile, name='profile'),
+    path('login/', my_login_view, name='login'),
 ]
