@@ -32,6 +32,7 @@ User = get_user_model()
 #             'menu': menu,
 #         }
 #         return render(request, self.template_name, context)
+
 def my_login_view(request, *args, **kwargs):
     view = LoginView.as_view(template_name='users/login.html', extra_context={'menu': menu})
     return view(request, *args, **kwargs)

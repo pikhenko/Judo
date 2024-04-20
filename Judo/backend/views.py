@@ -61,8 +61,8 @@ def index(request):
             'menu': menu,
             'title': 'Главная страница',
             'message': message,
-            # 'address': schedule.address,
-            # 'time': schedule.time,
+            #'address': schedule.address,
+            #'time': schedule.time,
             'posts': posts,
             'news_list' : news_list,
             'files': files,
@@ -293,4 +293,3 @@ def news(request):
     news_list = News.objects.all()
     context = {'news_list': news_list}
     return render(request, 'backend/news.html', context)
-
