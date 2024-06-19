@@ -49,5 +49,22 @@ class ContactForm(forms.Form):
     )
 
 
+class NewsForm(forms.ModelForm):
+    class Meta:
+        model = News
+        fields = ['title', 'content']
+
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        if not title:
+            raise forms.ValidationError('Это поле обязательно для заполнения.')
+        return title
+
+    def clean_content(self):
+        content = self.cleaned_data.get('content')
+        if not content:
+            raise forms.ValidationError('Это поле обязательно для заполнения.')
+        return content
+
 
 
