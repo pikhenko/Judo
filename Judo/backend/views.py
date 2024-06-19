@@ -19,12 +19,12 @@ from .forms import AddPostForm, CommentForm, PhotoForm, ContactForm
 
 
 menu = [
-        {'title': "Обратная связь", 'url_name': 'backend:contact'},
-        {'title': "Новости", 'url_name': 'backend:shedule'},
-        {'title': "Расписание", 'url_name': 'backend:shedule'},
+        # {'title': "Обратная связь", 'url_name': 'backend:contact'},
+        {'title': "Новости", 'url_name': 'backend:post_list'},
         {'title': "Фотогалерея", 'url_name': 'backend:gallery'},
-        {'title': "Цены", 'url_name': 'backend:team'},
-        {'title': "Тренер", 'url_name': 'backend:team'},
+        {'title': "Расписание", 'url_name': 'backend:shedule'},
+        {'title': "Стоимость", 'url_name': 'backend:team'},
+        # {'title': "Тренер", 'url_name': 'backend:team'},
         {'title': "О клубе", 'url_name': 'backend:team'},
         ]
 
@@ -83,6 +83,7 @@ def index(request):
 
 def post_list(request):
     posts = Posts.objects.all()
+    files = File.objects.all()
     paginator = Paginator(posts, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -90,6 +91,7 @@ def post_list(request):
         'page_obj': page_obj,
         'menu': menu,
         'title': 'Посты',
+        'files': files,
     }
     return render(request, 'backend/posts.html', context=context)
 

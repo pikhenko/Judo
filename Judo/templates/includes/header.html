@@ -45,16 +45,16 @@
                         
                     {% endfor %}
                     
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                            Посты
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'backend:post_list' %}">Читать посты</a></li>
-                            <li><a class="dropdown-item" href="{% url 'backend:add_page' %}">Добавить пост</a></li>
-                        </ul>
-                    </li>
+{#                    <li class="nav-item dropdown">#}
+{#                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"#}
+{#                        data-bs-toggle="dropdown" aria-expanded="false">#}
+{#                            Посты#}
+{#                        </a>#}
+{#                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">#}
+{#                            <li><a class="dropdown-item" href="{% url 'backend:post_list' %}">Читать посты</a></li>#}
+{#                            <li><a class="dropdown-item" href="{% url 'backend:add_page' %}">Добавить пост</a></li>#}
+{#                        </ul>#}
+{#                    </li>#}
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -74,9 +74,13 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                           <div style="text-align:center;">
-                            <a href="/admin/backend/file/add/" class="btn btn-dark btn-block btn-sm m-1">Загрузить файл</a>
-                           </div>
+
+                            {% if request.user.is_superuser %}
+                                <div style="text-align:center;">
+                                <a href="/admin/backend/file/add/" class="btn btn-dark btn-block btn-sm m-1">Загрузить файл</a>
+                                </div>
+                            {% endif %}
+
                         </ul>
                     </li>
                 </ul>
