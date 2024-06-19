@@ -1,20 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-wedfsdsf!!!
-{% if message == "сегодня тренировка" %}
-    <p style="text-align: right;">{{ user.username }}, {{ message }} в {{ time }} по адресу {{ address }}
-        <a href="{% url 'backend:shedule' %}">
-            <button type="submit" class="btn btn-dark btn-lg">Открыть расписание</button>
+
+
+{% if user.is_staff %}
+    <p style="text-align: right;">
+        <a href="{% url 'backend:add_news' %}">
+            <button type="submit" class="btn btn-dark btn-block btn-sm m-1">Добавить новость</button>
         </a>
     </p>
+{% endif %}
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="text-align: right;">{{ message }}
+            <a href="{% url 'backend:shedule' %}">
+                <button type="submit" class="btn btn-dark btn-block btn-sm m-1">Открыть расписание</button>
+            </a>
+        </p>
+    {% endfor %}
 {% else %}
-    <p style="text-align: right;">{{ user.username }} {{ message }}
+    <p style="text-align: right;">{{ user.username }} Добро пожаловать!
         <a href="{% url 'backend:shedule' %}">
             <button type="submit" class="btn btn-dark btn-block btn-sm m-1">Открыть расписание</button>
         </a>
     </p>
 {% endif %}
+
 <div class="d-flex align-items-center" style="position: relative; height: 350px;">
     <img src="/static/images/lion.png" class="rounded" alt="" width="300" height="300" style="margin-right: 50px;">
     <h1 class="display-2">Клуб <br> единоборств <br> "Fire Lions" </h1>
@@ -27,15 +39,15 @@ wedfsdsf!!!
         </p>
     </div>
 </div>
-    {% for news in news_list %}
+    {% if latest_news %}
     <div style="background-color: orange; position: relative; z-index: 1; margin-top: 100px; padding: 10px; width: 100%;">
         <h3>Информация от Сен-сея</h3>
-        <h3>{{ news.title }}</h3>
-        <p>{{ news.content }}</p>
-        <p>Published on: {{ news.pub_date }}</p>
-        <p>Author: {{ news.author }}</p>
+        <h3>{{ latest_news.title }}</h3>
+        <p>{{ latest_news.content }}</p>
+        <p>Published on: {{ latest_news.pub_date }}</p>
+        <p>Author: {{ latest_news.author }}</p>
     </div>
-    {% endfor %}
+    {% endif %}
 <h3>Новости</h3>
 {% for post in posts %}
     <li>

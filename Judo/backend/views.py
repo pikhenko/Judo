@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Case, When, Value, IntegerField
 from datetime import datetime
 from pytils.translit import slugify
@@ -15,16 +15,16 @@ from .models import Category, PhotoGallery, News, Schedule
 from .models import Category, PhotoGallery
 from .models import File
 from users.models import Profile
-from .forms import AddPostForm, CommentForm, PhotoForm, ContactForm
+from .forms import AddPostForm, CommentForm, PhotoForm, ContactForm, NewsForm
 
 
 menu = [
-        {'title': "Обратная связь", 'url_name': 'backend:contact'},
+        # {'title': "Обратная связь", 'url_name': 'backend:contact'},
         {'title': "Новости", 'url_name': 'backend:shedule'},
         {'title': "Расписание", 'url_name': 'backend:shedule'},
         {'title': "Фотогалерея", 'url_name': 'backend:gallery'},
-        {'title': "Цены", 'url_name': 'backend:team'},
-        {'title': "Тренер", 'url_name': 'backend:team'},
+        {'title': "Стоимость", 'url_name': 'backend:team'},
+        # {'title': "Тренер", 'url_name': 'backend:team'},
         {'title': "О клубе", 'url_name': 'backend:team'},
         ]
 
@@ -47,37 +47,36 @@ def download_file(request, file_id):
 def index(request):
     posts = Posts.objects.order_by('time_create')[:2]
     news_list = News.objects.all()
+    latest_news = News.objects.order_by('-pub_date').first()
     day_of_week = datetime.today().weekday()
-    days = days = ['Понедельник', 'Вторник', 'Среда',
-                   'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+    days = ['Понедельник', 'Вторник', 'Среда',
+            'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
     files = File.objects.all()
+    context = {
+        'menu': menu,
+        'title': 'Главная страница',
+        'posts': posts,
+        'latest_news': latest_news,
+        'files': files,
+    }
 
-    try:
-        schedules = Schedule.objects.filter(day=days[day_of_week])
+    print("Сегодняшний день недели:", days[day_of_week])
+    schedules = Schedule.objects.filter(day=days[day_of_week])
+
+    if schedules.exists():
         for schedule in schedules:
-            print(schedule.address)
-        message = 'сегодня тренировка' if request.user.is_authenticated else 'Добро пожаловать!'
-        context = {
-            'menu': menu,
-            'title': 'Главная страница',
-            'message': message,
-            #'address': schedule.address,
-            #'time': schedule.time,
-            'posts': posts,
-            'news_list' : news_list,
-            'files': files,
+            message = f'Привет {request.user.username}, сегодня тренировка в {schedule.time} по адресу {schedule.address}' \
+                if request.user.is_authenticated else 'Добро пожаловать!'
+            messages.add_message(request, messages.INFO, message)
+            context.update({
+                'address': schedule.address,
+                'time': schedule.time,
+            })
+    else:
+        message = f'Привет {request.user.username}, сегодня нет тренировок' \
+            if request.user.is_authenticated else 'Добро пожаловать!'
+        messages.add_message(request, messages.INFO, message)
 
-        }
-    except Schedule.DoesNotExist:
-        message = 'сегодня нет тренировок' if request.user.is_authenticated else 'Добро пожаловать!'
-        context = {
-            'menu': menu,
-            'title': 'Главная страница',
-            'message': message,
-            'posts': posts,
-            'news_list' : news_list,
-            'files': files,
-        }
     return render(request, 'backend/index.html', context=context)
 
 
@@ -293,3 +292,26 @@ def news(request):
     news_list = News.objects.all()
     context = {'news_list': news_list}
     return render(request, 'backend/news.html', context)
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def add_news(request):
+    if request.method == 'POST':
+        form = NewsForm(request.POST)
+        if form.is_valid():
+            # Получаем последнюю новость
+            latest_news = News.objects.latest('pub_date')
+
+            # Удаляем предыдущую новость
+            latest_news.delete()
+
+            # Сохраняем новую новость
+            news = form.save(commit=False)
+            news.author = request.user
+            news.save()
+
+            messages.success(request, 'Новость успешно добавлена!')
+            return redirect('backend:home')
+    else:
+        form = NewsForm()
+    return render(request, 'backend/add_news.html', {'form': form})
