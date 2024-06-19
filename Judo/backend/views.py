@@ -82,6 +82,7 @@ def index(request):
 
 def post_list(request):
     posts = Posts.objects.all()
+    files = File.objects.all()
     paginator = Paginator(posts, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -89,6 +90,7 @@ def post_list(request):
         'page_obj': page_obj,
         'menu': menu,
         'title': 'Посты',
+        'files': files,
     }
     return render(request, 'backend/posts.html', context=context)
 
