@@ -134,3 +134,11 @@ class File(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class SiteSettings(models.Model):
+    logo = models.ImageField(upload_to='logos/', verbose_name="Логотип")
+    photo = models.ImageField(upload_to='photo/', null=True, blank=True, verbose_name="Фото тренера")
+    class Meta:
+        verbose_name = 'Настройки'
+        verbose_name_plural = 'Настройки'

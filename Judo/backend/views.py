@@ -20,7 +20,7 @@ from .forms import AddPostForm, CommentForm, PhotoForm, ContactForm, NewsForm
 
 menu = [
         # {'title': "Обратная связь", 'url_name': 'backend:contact'},
-        {'title': "Новости", 'url_name': 'backend:shedule'},
+        {'title': "Новости", 'url_name': 'backend:news'},
         {'title': "Расписание", 'url_name': 'backend:shedule'},
         {'title': "Фотогалерея", 'url_name': 'backend:gallery'},
         {'title': "Стоимость", 'url_name': 'backend:team'},
@@ -52,12 +52,14 @@ def index(request):
     days = ['Понедельник', 'Вторник', 'Среда',
             'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
     files = File.objects.all()
+    site_settings = SiteSettings.objects.first()
     context = {
         'menu': menu,
         'title': 'Главная страница',
         'posts': posts,
         'latest_news': latest_news,
         'files': files,
+        'site_settings': site_settings,
     }
 
     print("Сегодняшний день недели:", days[day_of_week])
@@ -86,11 +88,13 @@ def post_list(request):
     paginator = Paginator(posts, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    site_settings = SiteSettings.objects.first()
     context = {
         'page_obj': page_obj,
         'menu': menu,
         'title': 'Посты',
         'files': files,
+        'site_settings': site_settings,
     }
     return render(request, 'backend/posts.html', context=context)
 
@@ -108,7 +112,8 @@ def photo(request):
 
 
 def team(request):
-    return render(request, 'backend/team.html', {'menu': menu, 'title': 'О тренере'})
+    site_settings = SiteSettings.objects.first()
+    return render(request, 'backend/team.html', {'menu': menu, 'title': 'О тренере', 'site_settings': site_settings})
 
 
 def shedule(request):
@@ -122,6 +127,7 @@ def shedule(request):
         When(day='Воскресенье', then=Value(7)),
         output_field=IntegerField(),
     )
+    site_settings = SiteSettings.objects.first()
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
         schedules = Schedule.objects.filter(age_group=profile.age_group).order_by(days_order)
@@ -129,7 +135,8 @@ def shedule(request):
         schedules = Schedule.objects.all().order_by('age_group', days_order)
     return render(request, 'backend/shedule.html', {'menu': menu,
                                                     'title': 'Расписание',
-                                                    'schedules': schedules})
+                                                    'schedules': schedules,
+                                                    'site_settings': site_settings})
 
 
 def read_post(request, post_slug):
@@ -201,7 +208,8 @@ def gallery(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     categories = Category.objects.all()
-    context = {'categories': categories, 'photos': photos, 'menu': menu, 'title': 'Фотоальбом', 'page_obj': page_obj}
+    site_settings = SiteSettings.objects.first()
+    context = {'categories': categories, 'photos': photos, 'menu': menu, 'title': 'Фотоальбом', 'page_obj': page_obj, 'site_settings': site_settings,}
     return render(request, 'backend/gallery.html', context)
 
 
@@ -292,12 +300,16 @@ def contact(request):
                                                     'menu': menu})
 def news(request):
     news_list = News.objects.all()
-    context = {'news_list': news_list}
+    site_settings = SiteSettings.objects.first()
+    context = {'news_list': news_list,
+               'site_settings': site_settings,
+               'menu': menu}
     return render(request, 'backend/news.html', context)
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def add_news(request):
+    site_settings = SiteSettings.objects.first()
     if request.method == 'POST':
         form = NewsForm(request.POST)
         if form.is_valid():
@@ -316,4 +328,6 @@ def add_news(request):
             return redirect('backend:home')
     else:
         form = NewsForm()
-    return render(request, 'backend/add_news.html', {'form': form})
+    return render(request, 'backend/add_news.html', {'form': form,
+                                                     'site_settings': site_settings,
+                                                     'menu': menu})

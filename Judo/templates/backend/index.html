@@ -28,10 +28,11 @@
 {% endif %}
 
 <div class="d-flex align-items-center" style="position: relative; height: 350px;">
-    <img src="/static/images/lion.png" class="rounded" alt="" width="300" height="300" style="margin-right: 50px;">
+<!--    <img src="/static/images/lion.png" class="rounded" alt="" width="300" height="300" style="margin-right: 50px;">-->
+    <img src="{{ site_settings.logo.url }}" alt="Site Logo" width="300" height="auto">
     <h1 class="display-2">Клуб <br> единоборств <br> "Fire Lions" </h1>
     <div style="width: 200px; position: absolute; top: 0; right: 0;">
-        <img src="/static/images/trainer.webp" alt="Тренер" width="200" height="auto" style="margin: 15px;">
+        <img src="{{ site_settings.photo.url }}" alt="Тренер" width="200" height="auto" style="margin: 15px;">
         <p class="lead" style="margin: 15px;">Главный тренер клуба "Fire Lions"
             <a href="{% url 'backend:team' %}">
                 <button type="submit" class="btn btn-dark btn-block btn-sm m-1">О тренере</button>
@@ -40,7 +41,7 @@
     </div>
 </div>
     {% if latest_news %}
-    <div style="background-color: orange; position: relative; z-index: 1; margin-top: 100px; padding: 10px; width: 100%;">
+    <div class="mw-100" style="background-color: orange; position: relative; z-index: 1; margin-top: 100px; padding: 10px; width: 100%;">
         <h3>Информация от Сен-сея</h3>
         <h3>{{ latest_news.title }}</h3>
         <p>{{ latest_news.content }}</p>
