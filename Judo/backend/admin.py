@@ -41,4 +41,5 @@ admin.site.register(AgeGroup, AgeGroupAdmin)
 admin.site.register(Schedule,ScheduleAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(File, FileAdmin)
+admin.site.register(SiteSettings)
 

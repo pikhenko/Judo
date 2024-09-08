@@ -11,6 +11,7 @@ from .forms import UserCreationForm
 from .forms import AuthenticationForm
 from .forms import UpdateProfileForm, UpdateUserForm
 from backend.views import menu
+from backend.models import *
 from django.contrib import messages
 from .models import Profile
 
@@ -68,14 +69,17 @@ class SignUp(CreateView):
     template_name = 'users/signup.html'
 
     def get(self, request):
+        site_settings = SiteSettings.objects.first()
         context = {
             'menu': menu,
-            'form': UserCreationForm()
+            'form': UserCreationForm(),
+            'site_settings': site_settings
         }
         return render(request, self.template_name, context)
 
     def post(self, request):
         form = UserCreationForm(request.POST)
+        site_settings = SiteSettings.objects.first()
 
         if form.is_valid():
             form.save()
@@ -86,7 +90,8 @@ class SignUp(CreateView):
             return redirect('users:confirm_email')
         context = {
             'menu': menu,
-            'form': form
+            'form': form,
+            'site_settings': site_settings
         }
         return render(request, self.template_name, context)
 
@@ -94,6 +99,7 @@ class SignUp(CreateView):
 @login_required
 def profile(request):
     user = request.user
+    site_settings = SiteSettings.objects.first()
     if not hasattr(user, 'profile'):
         # Создать профиль, если он не существует
         Profile.objects.create(user=user)
@@ -112,6 +118,7 @@ def profile(request):
     
     return render(request, 'users/profile.html', {'menu': menu,
                                                   'user_form': user_form,
-                                                  'profile_form': profile_form,})
+                                                  'profile_form': profile_form,
+                                                  'site_settings': site_settings})
 
 

@@ -449,3 +449,7 @@ ul.lang-list li a:hover {color: #fdc073;}
 .nav {
 	position: sticky;
 }
+
+.orange-container {
+    border: 2px solid orange;
+}
