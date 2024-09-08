@@ -108,7 +108,7 @@ def photo(request):
 
 
 def team(request):
-    return render(request, 'backend/team.html', {'menu': menu, 'title': 'О тренере'})
+    return render(request, 'backend/team.html', {'menu': menu, 'title': 'История клуба'})
 
 
 def shedule(request):
