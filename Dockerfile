@@ -12,7 +12,7 @@ RUN pip3 install -r /app/requirements.txt --no-cache-dir
 
 COPY ./ /app/Judo/
 
-COPY ./Judo/static/images/ /app/Judo/Judo/static/images/
+COPY ./Judo/static/images/ /app/Judo/Judo/images_copy/
 
 WORKDIR /app/Judo/Judo/
 
