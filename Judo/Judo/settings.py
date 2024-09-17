@@ -28,9 +28,7 @@ ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'users.User'
 
-# CSRF_TRUSTED_ORIGINS = ["http://localhost:8000"]
 
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend.apps.BackendConfig',
-    # 'users.apps.UsersConfig',
     'core.apps.CoreConfig',
     'users',
     'fancybox'
@@ -94,15 +91,6 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-# Password validation
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -139,12 +127,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Statics
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = ['static']
 
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'backend:home'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -154,7 +140,6 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'apikhenko@gmail.com'
 EMAIL_HOST_PASSWORD = 'atqu hkcg gjip gckh'
 
-# CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 

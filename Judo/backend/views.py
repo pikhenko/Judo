@@ -12,19 +12,16 @@ from pytils.translit import slugify
 
 from .models import *
 from .models import Category, PhotoGallery, News, Schedule
-from .models import Category, PhotoGallery
 from .models import File
 from users.models import Profile
 from .forms import AddPostForm, CommentForm, PhotoForm, ContactForm, NewsForm
 
 
 menu = [
-        # {'title': "Обратная связь", 'url_name': 'backend:contact'},
         {'title': "Новости", 'url_name': 'backend:news'},
         {'title': "Расписание", 'url_name': 'backend:shedule'},
         {'title': "Фотогалерея", 'url_name': 'backend:gallery'},
         {'title': "Стоимость", 'url_name': 'backend:team'},
-        # {'title': "Тренер", 'url_name': 'backend:team'},
         {'title': "О клубе", 'url_name': 'backend:team'},
         ]
 
@@ -46,7 +43,6 @@ def download_file(request, file_id):
 
 def index(request):
     posts = Posts.objects.order_by('time_create')[:2]
-    news_list = News.objects.all()
     latest_news = News.objects.order_by('-pub_date').first()
     day_of_week = datetime.today().weekday()
     days = ['Понедельник', 'Вторник', 'Среда',
@@ -245,7 +241,6 @@ def delete_photo(request, pk):
 def add_photo(request):
     user = request.user
     categories = user.category_set.all()
-    categories = user.category_set.all()
     if request.method == 'POST':
         data = request.POST
         images = request.FILES.getlist('images')
@@ -313,17 +308,11 @@ def add_news(request):
     if request.method == 'POST':
         form = NewsForm(request.POST)
         if form.is_valid():
-            # Получаем последнюю новость
             latest_news = News.objects.latest('pub_date')
-
-            # Удаляем предыдущую новость
             latest_news.delete()
-
-            # Сохраняем новую новость
             news = form.save(commit=False)
             news.author = request.user
             news.save()
-
             messages.success(request, 'Новость успешно добавлена!')
             return redirect('backend:home')
     else:

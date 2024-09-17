@@ -9,8 +9,8 @@ services:
       - ./.env
 
   web:
-    image: apikhenko/judo:latest
-    # build: .
+    # image: apikhenko/judo:latest
+    build: .
     restart: always
     volumes:
       - type: volume
