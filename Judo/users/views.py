@@ -24,16 +24,6 @@ from django.views.generic import CreateView
 User = get_user_model()
 
 
-# class MyLoginView(LoginView):
-#     form_class = AuthenticationForm
-#     template_name = 'users:login'
-
-#     def get(self, request):
-#         context = {
-#             'menu': menu,
-#         }
-#         return render(request, self.template_name, context)
-
 def my_login_view(request, *args, **kwargs):
     view = LoginView.as_view(template_name='users/login.html', extra_context={'menu': menu})
     return view(request, *args, **kwargs)
@@ -54,7 +44,6 @@ class EmailVerify(View):
     @staticmethod
     def get_user(uidb64):
         try:
-            # urlsafe_base64_decode() decodes to bytestring
             uid = urlsafe_base64_decode(uidb64).decode()
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError,
@@ -64,8 +53,6 @@ class EmailVerify(View):
 
 
 class SignUp(CreateView):
-    # form_class = CreationForm
-    # success_url = reverse_lazy('backend:home')
     template_name = 'users/signup.html'
 
     def get(self, request):
@@ -101,7 +88,6 @@ def profile(request):
     user = request.user
     site_settings = SiteSettings.objects.first()
     if not hasattr(user, 'profile'):
-        # Создать профиль, если он не существует
         Profile.objects.create(user=user)
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)

@@ -1,4 +1,3 @@
-from collections.abc import Iterable
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth import get_user_model
@@ -89,7 +88,6 @@ class PhotoGallery(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True)
     image = models.ImageField(upload_to="photos/%Y/%m/%d/", null=False, blank=False)
-    # description = models.TextField()
     date = models.DateTimeField(
         'Дата добавления', auto_now_add=True, db_index=True)
 
@@ -139,6 +137,9 @@ class File(models.Model):
 class SiteSettings(models.Model):
     logo = models.ImageField(upload_to='logos/', verbose_name="Логотип")
     photo = models.ImageField(upload_to='photo/', null=True, blank=True, verbose_name="Фото тренера")
+    image_1 = models.ImageField(upload_to='photo/', null=True, blank=True, verbose_name="Рисунок 1")
+    image_2 = models.ImageField(upload_to='photo/', null=True, blank=True, verbose_name="Рисунок 2")
+    image_3 = models.ImageField(upload_to='photo/', null=True, blank=True, verbose_name="Рисунок 3")
     class Meta:
         verbose_name = 'Настройки'
         verbose_name_plural = 'Настройки'
