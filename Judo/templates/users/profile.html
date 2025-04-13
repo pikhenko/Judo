@@ -1,48 +1,61 @@
 {% extends "base.html" %}
 {% block title %}Profile Page{% endblock title %}
 {% block content %}
-    <div class="my-image">
-        <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
-    </div>
-    {% if user_form.errors %}
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <div id="form_errors">
-                {% for key, value in user_form.errors.items %}
-                    <strong>{{ value }}</strong>
-                {% endfor %}
+<h1>Страница пользователя</h1>
+    <div style="max-width: 600px; margin-left: 0; padding-left: 0;">
+        <!-- Карточка с формой, выровнена влево -->
+        <div class="card shadow-sm" style="text-align: left;">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" class="text-start">
+                    {% csrf_token %}
+
+                    <!-- Аватарка пользователя в форме, выровнена влево -->
+                    <div class="mb-4">
+                        <img class="rounded-circle account-img shadow" src="{{ user.profile.avatar.url }}"
+                             alt="User Avatar" style="width: 75px; height: 75px; object-fit: cover; cursor: pointer;">
+                    </div>
+
+                    <!-- Поля формы, выровнены влево -->
+                    <div class="mb-3">
+                        <label class="form-label">Имя:</label>
+                        {{ user_form.username }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email:</label>
+                        {{ user_form.email }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Группа:</label>
+                        {{ profile_form.age_group }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Сменить аватар:</label>
+                        <!-- Скрываем стандартный элемент загрузки файла -->
+
+                            <input type="file" id="avatarUpload" name="avatar" class="form-control d-none">
+                            <label for="avatarUpload" class="btn btn-outline-secondary">
+                                Выберите файл
+                            </label>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">О себе:</label>
+                        {{ profile_form.bio }}
+                    </div>
+                    <div class="mb-3">
+                        <a href="{% url 'users:password_change_form' %}" class="text-decoration-none">Изменить пароль</a>
+                    </div>
+
+                    <!-- Кнопки формы -->
+                    <div class="d-flex justify-content-start mt-4">
+                        <button type="submit" class="btn btn-success me-2">Сохранить изменения</button>
+                        <button type="reset" class="btn btn-outline-secondary">Сброс</button>
+                    </div>
+                </form>
             </div>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
         </div>
-    {% endif %}
-    <div class="form-content">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-row">
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label class="small mb-1">Имя:</label>
-                            {{ user_form.username }}
-                        <label class="small mb-1">Email:</label>
-                            {{ user_form.email }}
-                        <label class="small mb-1">Группа</label>
-                            {{ profile_form.age_group }}
-                        <br>
-                        <label class="small mb-1">Сменить аватар:</label>
-                            {{ profile_form.avatar }}
-                        <br>
-                        <label class="small mb-1">О себе:</label>
-                            {{ profile_form.bio }}
-                    </div>
-                    <div class="form-group">
-                        <a href="{% url 'users:password_change_form' %}">Изменить пароль</a>
-                    </div>
-                </div>
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-dark btn-block btn-sm m-1">Сохранить изменения</button>
-            <button type="reset" class="btn btn-dark btn-block btn-sm m-1">Сброс</button>
-        </form>
     </div>
+
 {% endblock content %}

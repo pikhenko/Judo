@@ -19,11 +19,11 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
 
-      
+
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'backend:home' %}">
-                <img src="{{ site_settings.logo.url }}" alt="Site Logo" width="55" height="50">
+                <img src="/static/images/Index_logo.png" alt="Site Logo" width="55" height="50">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
@@ -42,7 +42,7 @@
                                 <a class="nav-link" href="{% url m.url_name %}">{{ m.title }}</a>
                             </li>
                         {% endif %}
-                        
+
                     {% endfor %}
 
 
@@ -61,11 +61,12 @@
                              <li><a class="dropdown-item">Нет файлов.</a></li>
                             {% endfor %}
 
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
+
 
                             {% if request.user.is_superuser %}
+                                <li>
+                                <hr class="dropdown-divider">
+                                </li>
                                 <div style="text-align:center;">
                                 <a href="/admin/backend/file/add/" class="btn btn-dark btn-block btn-sm m-1">Загрузить файл</a>
                                 </div>
@@ -74,54 +75,42 @@
                         </ul>
                     </li>
                 </ul>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <form class="d-flex">
-                        {% if request.user.is_authenticated %}
-                            <li class="nav-item">
-                                <a class="nav-link disabled">Пользователь:</a>
-                            </li>
+<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link disabled">Пользователь:</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'users:password_change_form' %}">Изменить пароль</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'users:profile' %}">Страница пользователя</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'users:logout' %}">Выйти</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if view_name == 'users:login' %}active{% endif %}"
+                           href="{% url 'users:login' %}">Войти</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if view_name == 'users:signup' %}active{% endif %}"
+                           href="{% url 'users:signup' %}">Регистрация</a>
+                    </li>
+                {% endif %}
 
-                            <li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ user.username }}
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="{% url 'users:password_change_form' %}">Изменить
-                                        пароль</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="{% url 'users:profile' %}">Страница пользователя</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="{% url 'users:logout' %}">Выйти</a></li>
-                                </ul>
-                            </li>
-                            </li>
-
-
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link {% if view_name  == 'users:login' %}active{% endif %}"
-                                href="{% url 'users:login' %}">
-                                    Войти
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {% if view_name  == 'users:signup' %}active{% endif %}"
-                                href="{% url 'users:signup' %}">
-                                    Регистрация
-                                </a>
-                            </li>
-                        {% endif %}
-                    </form>
-                    {% if request.user.is_superuser %}
-                    <a href="/admin/" class="btn btn-dark btn-block btn-sm m-1">Администрирование</a>
-                    {% endif %}
-                </ul>
+                <!-- Кнопка "Администрирование", выровненная вправо -->
+                {% if request.user.is_superuser %}
+                    <li class="nav-item">
+                        <a href="/admin/" class="btn btn-dark btn-sm m-1">Администрирование</a>
+                    </li>
+                {% endif %}
+            </ul>
             </div>
         </div>
     </nav>

@@ -3,21 +3,80 @@
 {% block content %}
 <h1>{{ title }}</h1>
 
-<ul>
+<style>
+    .article-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .article-item {
+        background-color: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .article-title {
+        font-size: 1.5em;
+        color: #343a40;
+        margin-top: 0;
+    }
+    .article-content {
+        color: #495057;
+    }
+    .article-image {
+        max-width: 100px;
+        float: left;
+        margin-right: 15px;
+        border-radius: 4px;
+    }
+    .read-more {
+        display: inline-block;
+        margin-top: 10px;
+    }
+</style>
+
+<style>
+  /* Стили для ссылки заголовка */
+  .article-title a {
+      text-decoration: none; /* Убираем подчеркивание */
+      color: inherit; /* Цвет текста наследуется от родителя */
+  }
+
+  .article-title a:hover {
+      text-decoration: none; /* Убираем подчеркивание при наведении */
+      color: inherit; /* Оставляем цвет таким же при наведении */
+  }
+</style>
+
+<ul class="article-list">
     {% for p in page_obj %}
-    <li>
+    <li class="article-item">
         {% if p.photo %}
-            <p><img class="img-article-left thumb" src="{{p.photo.url}}"></p>
+            <img class="article-image" src="{{ p.photo.url }}" alt="{{ p.title }}">
         {% endif %}
-        <h2>{{p.title}}</h2>
-        <p>{{p.content|linebreaks|truncatewords:50}}</p>
+
+        <!-- Заголовок с ссылкой -->
+        <h2 class="article-title">
+            <a href="{{ p.get_absolute_url }}" class="read-more">
+                {{ p.title }}
+            </a>
+        </h2>
+
+        <p class="article-content">{{ p.content|linebreaks|truncatewords:50 }}</p>
         <div class="clear"></div>
+
+        <!-- Отображение даты -->
+        <p class="article-date text-muted" style="font-size: 0.9em; margin: 5px 0;">
+            Опубликовано: {{ p.time_create|date:"d M Y" }}
+        </p>
+
+        <!-- Кнопка "Читать запись" -->
         <p style="text-align: right;">
-            <a href="{{ p.get_absolute_url }}">
-                <button type="submit" class="btn btn-dark btn-block btn-sm m-1">Читать запись</button>
+            <a href="{{ p.get_absolute_url }}" class="read-more">
+                <button type="button" class="btn btn-outline-dark btn-sm">Читать запись</button>
             </a>
         </p>
-        <hr>
     </li>
     {% endfor %}
 

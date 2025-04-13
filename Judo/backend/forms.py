@@ -65,6 +65,3 @@ class NewsForm(forms.ModelForm):
         if not content:
             raise forms.ValidationError('Это поле обязательно для заполнения.')
         return content
-
-
-

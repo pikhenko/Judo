@@ -35,8 +35,8 @@ class Posts(models.Model):
         return reverse('backend:read_post', kwargs={'post_slug': self.slug})
     
     class Meta:
-        verbose_name = 'Посты'
-        verbose_name_plural = 'Посты'
+        verbose_name = 'Новости'
+        verbose_name_plural = 'Новости'
         ordering = ['time_create', 'title']
 
 
@@ -44,7 +44,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Posts,
                              on_delete=models.CASCADE,
                              related_name='comments',
-                             verbose_name="Пост")
+                             verbose_name="Новости")
     author = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              related_name='comments')
@@ -56,8 +56,8 @@ class Comment(models.Model):
     active = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name = 'Коментарии'
-        verbose_name_plural = 'Коментарии'
+        verbose_name = 'Комментарии'
+        verbose_name_plural = 'Комментарии'
         ordering = ['created',]
         indexes = [
             models.Index(fields=['created']),
@@ -116,8 +116,8 @@ class Schedule(models.Model):
 
 class News(models.Model):
     class Meta:
-        verbose_name = 'Новости'
-        verbose_name_plural = 'Новости'
+        verbose_name = 'Информация от тренера'
+        verbose_name_plural = 'Информация от тренера'
     
     title = models.CharField(max_length=200)
     content = models.TextField()
@@ -126,20 +126,11 @@ class News(models.Model):
 
     def __str__(self):
         return self.title
+
+
 class File(models.Model):
     title = models.CharField(max_length=150)
     file = models.FileField(upload_to='files/')
 
     def __str__(self):
         return self.title
-
-
-class SiteSettings(models.Model):
-    logo = models.ImageField(upload_to='logos/', verbose_name="Логотип")
-    photo = models.ImageField(upload_to='photo/', null=True, blank=True, verbose_name="Фото тренера")
-    image_1 = models.ImageField(upload_to='photo/', null=True, blank=True, verbose_name="Рисунок 1")
-    image_2 = models.ImageField(upload_to='photo/', null=True, blank=True, verbose_name="Рисунок 2")
-    image_3 = models.ImageField(upload_to='photo/', null=True, blank=True, verbose_name="Рисунок 3")
-    class Meta:
-        verbose_name = 'Настройки'
-        verbose_name_plural = 'Настройки'

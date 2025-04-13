@@ -1,13 +1,25 @@
 {% extends 'base.html' %}
 
-{% block title %} Добавить коментарий {% endblock %}
+{% block title %}Добавить комментарий{% endblock %}
 
 {% block content %}
   {% if comment %}
-    <h2>Ваш коментарий добавлен.</h2>
+    <h2>Ваш комментарий добавлен.</h2>
     <p><a href="{{ post.get_absolute_url }}">Вернуться к постам</a></p>
   {% else %}
-    {% include 'includes/comment_form.html' %}
+    <div class="comment-section">
+      {% include 'includes/comment_form.html' %}
+    </div>
   {% endif %}
 
 {% endblock %}
+
+<style>
+  /* Стили для выравнивания по левому краю */
+  .comment-section {
+      text-align: left; /* Выравнивание по левому краю */
+      max-width: 600px; /* Ограничение ширины для лучшего отображения */
+      margin: 0 auto; /* Центрирование всего блока */
+      padding: 20px;
+  }
+</style>

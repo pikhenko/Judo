@@ -24,7 +24,9 @@ SECRET_KEY = 'r%_#3wg=9_q4x0uikssl9pcz2ec7(ssjsdmpvfqlh#i!^n061^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['web', 'judofl2.ru', 'www.judofl2.ru']
+SITE_DOMAIN = 'judofl2.ru'
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -53,7 +55,8 @@ MIDDLEWARE = [
 ]
 
 INTERNAL_IPS = [
-    '127.0.0.1',
+    # '127.0.0.1',
+     'judofl2.ru',
 ]
 
 ROOT_URLCONF = 'Judo.urls'
@@ -70,15 +73,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'backend.context_processors.global_context',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'Judo.wsgi.application'
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -107,9 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/2.2/topics/i18n/
-
 LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Europe/Moscow'
@@ -120,11 +118,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Statics
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -133,15 +129,13 @@ LOGIN_REDIRECT_URL = 'backend:home'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'apikhenko@gmail.com'
-EMAIL_HOST_PASSWORD = 'atqu hkcg gjip gckh'
-
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'False') == 'True'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-# CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1']
-CSRF_TRUSTED_ORIGINS = ['http://judofl.ru']
+CSRF_TRUSTED_ORIGINS = ['http://judofl2.ru', 'http://127.0.0.1']

@@ -3,31 +3,72 @@
 {% block content %}
 
 <h1>{{ title }}</h1>
-  <form action="{% url 'backend:shedule' %}" method="GET">
-    <div style="display: flex; justify-content: space-between;">
-      <div>
-        <table style="border-spacing: 10px; border-collapse: separate;">
-          <tr>
-            <th>Время</th>
-            <th>День</th>
-            <th>Адрес</th>
-            <th>Группа</th>
-          </tr>
-          {% for schedule in schedules %}
-          <tr>
-            <td>{{ schedule.time }}</td>
-            <td>{{ schedule.day }}</td>
-            <td>{{ schedule.address }}</td>
-            <td>{{ schedule.age_group }}</td>
-          </tr>
-          {% endfor %}
+<form action="{% url 'backend:shedule' %}" method="GET">
+    <div style="display: flex; justify-content: center; padding: 20px;">
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Время</th>
+                    <th>День</th>
+                    <th>Адрес</th>
+                    <th>Группа</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for schedule in schedules %}
+                <tr>
+                    <td>{{ schedule.time }}</td>
+                    <td>{{ schedule.day }}</td>
+                    <td>{{ schedule.address }}</td>
+                    <td>{{ schedule.age_group }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
-      </div>
-      <div> 
-        <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1b4759a829ad28ef7e5a6ca17d5cd9f0816758eef29aa01f6fb3a42369d097c9&amp;width=711&amp;height=501&amp;lang=ru_RU&amp;scroll=true"></script>
-      </div>
     </div>
-  </form> 
+</form>
+
+<style>
+    .schedule-table {
+        width: 100%;
+        max-width: 800px;
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+    }
+
+    .schedule-table thead {
+        background-color: #3a3a3a;
+        color: #ffffff;
+        text-transform: uppercase;
+    }
+
+    .schedule-table th, .schedule-table td {
+        padding: 12px 15px;
+        text-align: left;
+        font-size: 0.95em;
+    }
+
+    .schedule-table tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    .schedule-table tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+    .schedule-table tbody tr td {
+        color: #333;
+    }
+</style>
+<div style="display: flex; justify-content: center; padding: 20px;">
+    <script type="text/javascript" charset="utf-8" async
+        src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1b4759a829ad28ef7e5a6ca17d5cd9f0816758eef29aa01f6fb3a42369d097c9&amp;width=711&amp;height=501&amp;lang=ru_RU&amp;scroll=true">
+    </script>
+</div>
 {% endblock %}
 
 

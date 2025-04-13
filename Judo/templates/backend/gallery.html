@@ -19,18 +19,20 @@
     }
 </style>
 
+    {% if request.user.is_superuser %}
+        <p align="right">
+            <a href="{% url 'backend:gallery_edit' %}" class="btn btn-dark btn-block btn-sm m-1">Редактировать</a>
+        </p>
+    {% endif %}
 
 
-<p align="right">
-    <a href="{% url 'backend:gallery_edit' %}" class="btn btn-dark btn-block btn-sm m-1">Редактировать</a>
-</p>
 
 <body class="">
     <div class="container">
         <div class="row">
             <div class="col-md-3">
                 {% if request.user.is_authenticated %}
-                    <p>Привет {{request.user}}!</p>
+                    <p>Привет {{request.user.username}}!</p>
                 {% endif %}
 
                 <div class="card">

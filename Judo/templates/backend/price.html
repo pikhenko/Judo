@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Стоимость занятий по дзюдо</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #ffffff; /* Белый фон */
+            color: #333;
+            margin: 0px;
+            padding: 0;
+        }
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #0c0e13;
+        }
+        .pricing {
+            margin: 20px 0;
+        }
+        .pricing-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .special-offers {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Стоимость занятий по дзюдо</h1>
+        <p>Дзюдо — это не только вид спорта, но и путь к самодисциплине, укреплению здоровья и развитию уверенности в себе. Мы предлагаем гибкие варианты абонементов и индивидуальных занятий, чтобы вы могли выбрать оптимальный формат тренировок, исходя из ваших потребностей и расписания.</p>
+
+        <h2>Тарифы и варианты занятий:</h2>
+        <div class="pricing">
+            <div class="pricing-item">
+                <strong>Абонемент на месяц:</strong><br>
+                Дети (6-12 лет) — 3 занятия в неделю: <strong>4 000 руб.</strong><br>
+                Подростки (13-17 лет) — 3 занятия в неделю: <strong>5 000 руб.</strong><br>
+                Взрослые (от 18 лет) — 3 занятия в неделю: <strong>6 000 руб.</strong><br>
+                Дополнительное занятие: <strong>1 000 руб.</strong>
+            </div>
+            <div class="pricing-item">
+                <strong>Индивидуальные тренировки:</strong><br>
+                Одно занятие: <strong>2 500 руб.</strong><br>
+                Пакет из 5 занятий: <strong>11 000 руб.</strong><br>
+                Пакет из 10 занятий: <strong>20 000 руб.</strong>
+            </div>
+            <div class="pricing-item">
+                <strong>Групповые мастер-классы и семинары:</strong><br>
+                Проводятся по предварительной записи.<br>
+                Стоимость участия: от <strong>1 500 руб.</strong>
+            </div>
+        </div>
+
+        <div class="special-offers">
+            <h3>Специальные предложения:</h3>
+            <p>Мы регулярно проводим акции для новых и постоянных участников, а также предлагаем скидки на семейные абонементы. Уточнить актуальные предложения можно у администратора зала или на нашем сайте.</p>
+        </div>
+
+        <div class="footer">
+            <p>Записывайтесь на пробное занятие и присоединяйтесь к нашему сообществу дзюдоистов уже сегодня!</p>
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock %}

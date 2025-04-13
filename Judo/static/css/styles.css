@@ -77,7 +77,7 @@ ul.list-articles li {
 .clear {clear: both;}
 
 .logo {
-	background: url('../images/logo.png') no-repeat 10px 5px;
+	background: url('../images/Index_logo.png') no-repeat 10px 5px;
 	width: 70px;
 	height: 60px;
 }
@@ -453,3 +453,14 @@ ul.lang-list li a:hover {color: #fdc073;}
 .orange-container {
     border: 2px solid orange;
 }
+
+/* Основной контейнер для сетки */
+/* Контейнер сетки новостей */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Три столбца по одной доле ширины */
+    gap: 20px; /* Отступы между плитками */
+    padding: 20px;
+}
+
+/* Оформление карточек новостей */

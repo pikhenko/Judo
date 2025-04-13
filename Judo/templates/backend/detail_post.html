@@ -1,37 +1,76 @@
 {% extends 'base.html' %}
 
+<style>
+  .published-date {
+      text-align: right; /* Выравнивание текста по правому краю */
+      color: #aaa; /* Бледно-серый цвет текста */
+      margin-top: 10px; /* Отступ сверху для лучшего отображения */
+  }
+  .date-container {
+      display: flex; /* Используем flexbox для выравнивания элементов */
+      justify-content: space-between; /* Размещаем элементы по краям контейнера */
+      align-items: center; /* Вертикальное выравнивание элементов */
+  }
+</style>
+
 {% block content %}
-<div class="card my-4">
     <div class="card-body">
-    <h1>{{ post.title }}</h1>
+        <h1 class="card-title text-center" style="color: black;">{{ post.title }}</h1>
+        <div class="date-container"> <!-- Новый контейнер для даты и изображения -->
 
-      {% if post.photo %}
-        <p><img class="img-article-left" src="{{post.photo.url}}"></p>
-      {% endif %}
 
-    <p>{{post.content|linebreaks}}</p>
-    </div>
-  {% if user.is_authenticated %}
-  {% include 'includes/comment_form.html' %}
-  {% else %}
-    <h4 class="card-body">Зарегистрируйтесь чтобы оставить коментарий !</h4>
-  {% endif %}
-  <div class="card-body">
-    {% for comment in comments %}
-      <h5 class="mt-0">
-        <div class="my-image">
-          {% if comment.author.profile.avatar %}
-            <img class="rounded-circle account-img" src="{{ comment.author.profile.avatar.url }} " style="cursor: pointer;"/>
-          {% endif %}
+        <p class="card-text" style="font-size: 1.1em; line-height: 1.6;">{{ post.content|linebreaks }}</p>
+
+                {% if post.photo %}
+            <p class="text-center my-3"> <!-- Убираем лишние отступы, чтобы центрировать изображение -->
+                <img class="img-fluid rounded post-image" src="{{ post.photo.url }}" alt="{{ post.title }}" style="width: 75%; max-width: 100%; height: auto;">
+            </p>
+        {% endif %}
         </div>
-        {{ comment.author.username }}
-         {{ comment.created }}
-      </h5>
-      {{ comment.body|linebreaks }}
-      {% empty %}
-      <p>Пока нет коментариев.</p>
-    {% endfor %}
-  </div>
-  
-</div> 
+
+        <p class="article-date text-muted" style="font-size: 0.9em; margin: 5px 0; text-align: right; color: #aaa;">
+            {{ post.time_update }}
+        </p>
+
+        <!-- Комментарии -->
+        <div class="card-footer bg-light">
+            <h3 class="text-secondary">Комментарии</h3>
+            <div class="comments-section mt-4">
+                {% for comment in comments %}
+                    <div class="d-flex mb-4 p-3 border rounded bg-white shadow-sm">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="width: 50px; vertical-align: top; border: none;"> <!-- Аватар -->
+                                    {% if comment.author.profile.avatar %}
+                                        <img class="rounded-circle account-img" src="{{ comment.author.profile.avatar.url }}" alt="{{ comment.author.username }}" width="50" height="50">
+                                    {% else %}
+                                        <img class="rounded-circle account-img" src="path/to/default-avatar.jpg" alt="default avatar" width="50" height="50">
+                                    {% endif %}
+                                </td>
+                                <td style="border: none;"> <!-- Имя пользователя и дата -->
+                                    <h5 class="mt-0 font-weight-bold">{{ comment.author.username }}</h5>
+                                    <small class="text-muted">{{ comment.created|date:"d M Y, H:i" }}</small>
+                                    <p class="text-muted mt-1" style="font-size: 0.95em; line-height: 1.4;">{{ comment.body|linebreaks }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                {% empty %}
+                    <div class="alert alert-info" role="alert">
+                        Пока нет комментариев.
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if user.is_authenticated %}
+            <div class="my-3">
+                {% include 'includes/comment_form.html' %}
+            </div>
+        {% else %}
+            <h4 class="text-warning">Зарегистрируйтесь, чтобы оставить комментарий!</h4>
+        {% endif %}
+    </div>
+</div>
+
 {% endblock %}
